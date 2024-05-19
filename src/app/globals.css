@@ -1,0 +1,36 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.body{
+  background-color: #fff;
+
+}
+
+
+.testimonial-slide {
+  position: relative;
+  overflow: hidden;
+}
+
+.image-container {
+  filter: blur(5px); /* Apply blur effect to all images */
+}
+
+.image-container img {
+  filter: none; /* Clear the filter for the center image */
+}
+
+.slick-center .image-container {
+  filter: none; /* Clear the filter for the center image */
+}
+
+.dot {
+  height: 25px;
+  width: 25px;
+  background-color: #bbb;
+  border-radius: 50%;
+  display: inline-block;
+  gap: 3px;
+}
+  

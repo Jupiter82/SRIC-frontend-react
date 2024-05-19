@@ -1,9 +1,13 @@
 "use client"
 import React from "react";
+import { useForm } from "react-hook-form";
 import { FaChevronRight } from "react-icons/fa";
 import { FaHome } from "react-icons/fa";
+import { adminPostApi } from "@/app/utils/httpUtils";
 import Link from "next/link";
 export default function Slider_Form() {
+  const {register}= useForm()
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -33,7 +37,7 @@ export default function Slider_Form() {
       <div className="flex mx-6 my-6 text-blue-500">
         <h1 className="flex">Add Slider </h1>
       </div>
-      <form className="py-4"  onSubmit={handleSubmit}>
+      <form className="py-4"  onSubmit={handleSubmit(onsubmit)}>
         <div className="w-full">
           <h1>Choose Slider:</h1>
           <input
@@ -41,6 +45,7 @@ export default function Slider_Form() {
             required="true"
             accept="image/*"
             className="w-full border-2 my-2 "
+            {...register("image")}
           />
           <div>
             <h1>Slider Title:</h1>
@@ -48,14 +53,26 @@ export default function Slider_Form() {
               type="text"
               required="true"
               className="w-full border-2 my-2"
+              {...register("title")}
             />
           </div>
+          <div>
+            <h1>Sub Title:</h1>
+            <input
+              type="text"
+              required="true"
+              className="w-full border-2 my-2"
+              {...register("subTitle")}
+            />
+          </div>
+          
           <div>
             <h1>Slider Description:</h1>
             <input
               type="text"
               required="true"
               className="w-full border-2 my-2"
+              {...register("description")}
             />
           </div>
           <div>
@@ -64,14 +81,13 @@ export default function Slider_Form() {
               type="text"
               required="true"
               className="w-full border-2 my-2"
+              {...register("url")}
             />
           </div>
         </div>
-        <div className="my-2">
-          <h1>Alternative Name:</h1>
-          <input type="text" required="true" className="w-full border-2 my-2" />
-        </div>
-        <button className="bg-green-400 text-white my-4 text-2xl p-2 rounded-md">
+
+
+        <button type="submit" value="submit" className="bg-green-400 text-white my-4 text-2xl p-2 rounded-md">
           Submit
         </button>
       </form>

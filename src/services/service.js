@@ -1,6 +1,9 @@
-const baseUrl = "https://sric.onrender.com/api/v1"
+// const baseUrl = import.meta.env.APP_URL;
 
-export const urls = {
-    getBanner : `${baseUrl}/banner`
-}
+export const imgUrl = "http://localhost:3000/images";
+
+// export const urls = {
+
+//     getBanner : `${baseUrl}/banner`
+// }
 

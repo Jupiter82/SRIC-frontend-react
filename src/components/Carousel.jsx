@@ -4,6 +4,7 @@ import Slider from "react-slick";
 import Image from "next/image";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import { userFetchApi } from "@/app/utils/httpUtils";
+import {imgUrl} from "../services/service";
 
 function SampleNextArrow(props) {
   const { className, style, onClick } = props;
@@ -50,6 +51,7 @@ export default function Carousel() {
   const getCarouselData = async () => {
     try {
       const response = await userFetchApi("api/v1/banner/home");
+      console.log(response)
       if (response.status === 200) {
         setData(response.data.result);
       }
@@ -81,7 +83,7 @@ export default function Carousel() {
           <div className="relative" key={index}>
             <div className="absolute z-10 bg-black/50 w-[100%] h-[100%]"></div>
             <Image
-              src="/images/banner1.jpg"
+              // src={ "http://localhost:3000/images" + "/" + item.image}
               width={1000}
               height={1000}
               className="w-full h-[700px]"

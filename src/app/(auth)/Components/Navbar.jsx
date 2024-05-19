@@ -12,7 +12,7 @@ const Navbar = () => {
       router.push("/login")
     }
 
-  },[])
+  },[router])
   return (
     <nav className="bg-gray-800 border">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

@@ -23,9 +23,9 @@ const [data,setData] = useState([]);
     <footer className="bg-gray-800 text-white py-20 sm:mx-2 mt-4">
       <div className=" px-4 ">
         <div className="md:grid md:grid-cols-4 gap-4   flex justify-start flex-col ">
-          {data?.map((item)=>{
+          {data?.map((item,index)=>{
             return(
-              <div className="flex flex-col md:justify-center md:items-center">
+              <div className="flex flex-col md:justify-center md:items-center"key={index}>
               <h2 className="text-lg font-semibold mb-2">Company</h2>
               <ul className="md:ml-14">
                 <li>{item?.address}</li>

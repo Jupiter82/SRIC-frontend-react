@@ -4,7 +4,7 @@ import Slider from "react-slick";
 import Image from "next/image";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import { userFetchApi } from "@/app/utils/httpUtils";
-import {imgUrl} from "../services/service";
+import { imgUrl } from "../services/service";
 
 function SampleNextArrow(props) {
   const { className, style, onClick } = props;
@@ -20,7 +20,7 @@ function SampleNextArrow(props) {
       }}
       onClick={onClick}
     >
-      <FaChevronRight /> 
+      <FaChevronRight />
     </div>
   );
 }
@@ -51,11 +51,11 @@ export default function Carousel() {
   const getCarouselData = async () => {
     try {
       const response = await userFetchApi("api/v1/banner/home");
-      console.log(response)
+      console.log(response);
       if (response.status === 200) {
         setData(response.data.result);
       }
-      console.log(response)
+      console.log(response);
     } catch (error) {
       console.log(error);
     }
@@ -75,15 +75,15 @@ export default function Carousel() {
     nextArrow: <SampleNextArrow />,
     prevArrow: <SamplePrevArrow />,
   };
-
   return (
     <div className="slider-container ">
       <Slider {...settings}>
         {data.map((item, index) => (
           <div className="relative" key={index}>
             <div className="absolute z-10 bg-black/50 w-[100%] h-[100%]"></div>
+
             <Image
-              // src={ "http://localhost:3000/images" + "/" + item.image}
+              src={process.env.NEXT_PUBLIC_IMAGE_URL + "/" + item.image}
               width={1000}
               height={1000}
               className="w-full h-[700px]"
@@ -97,14 +97,12 @@ export default function Carousel() {
                 <h1 className="md:text-4xl text-white font-bold">
                   {item.title}
                 </h1>
-                <p className="text-sm">
-                  {item.description}
-                </p>
+                <p className="text-sm">{item.description}</p>
                 <button className="sm:py-0 sm:m-1 bg-blue-500 hover:bg-blue-700 text-white font-bold md:py-2 md:m-2 px-4 mr-4">
                   Read More
                 </button>
                 <button className="sm:py-0 sm:m-1 bg-white hover:bg-blue-700 text-black font-bold md:py-2 md:m-2 px-4">
-                  Join 
+                  Join
                 </button>
               </div>
             </div>

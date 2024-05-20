@@ -6,20 +6,26 @@ import { FaHome } from "react-icons/fa";
 import { adminPostApi } from "@/app/utils/httpUtils";
 import Link from "next/link";
 export default function Slider_Form() {
-  const {register}= useForm()
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const {register,handleSubmit,formState:{errors,isSubmitting}}= useForm({defaultValues:{title:"JUPOT"}})
+  const onsubmit = async (data) => {
+   console.log(data )
     try {
-      const response = await adminPostApi("/api/v1/banner",{
-        email,
-        password,
-      }) 
+
+      const formData = new FormData()
+      formData.append("title",data.title)
+      formData.append("url",data.url)
+      formData.append("status","active")
+      formData.append("image",data.image[0])
+      formData.append("subTitle",data.subTitle)
+      formData.append("description",data.description)
+      const response = await adminPostApi("/api/v1/banner",formData) 
+      console.log(response)
     } catch (error) {
       console.error("Something is wrong:", error);
      
     }
   };
+  console.log(errors)
   return (
     <div className="mx-4">
       <div className="flex row gap-2 mx-4 my-4 text-blue-500">
@@ -42,47 +48,49 @@ export default function Slider_Form() {
           <h1>Choose Slider:</h1>
           <input
             type="file"
-            required="true"
             accept="image/*"
             className="w-full border-2 my-2 "
-            {...register("image")}
+            {...register("image",{required:"nanf,dmn dsf"})}
           />
+           {errors["image"] && <p className="text-red-200">{errors["image"].message}</p>}
           <div>
             <h1>Slider Title:</h1>
             <input
               type="text"
-              required="true"
               className="w-full border-2 my-2"
-              {...register("title")}
+              {...register("title",{required:"TITLE is required",})}
             />
+             {errors["title"] && <p className="text-red-200">{errors["title"].message}</p>}
           </div>
           <div>
             <h1>Sub Title:</h1>
             <input
               type="text"
-              required="true"
+
               className="w-full border-2 my-2"
-              {...register("subTitle")}
+              {...register("subTitle",{required:"sub title is required"})}
             />
+            {errors["subTitle"] && <p className="text-red-200">{errors["subTitle"].message}</p>}
           </div>
           
           <div>
             <h1>Slider Description:</h1>
             <input
               type="text"
-              required="true"
+             
               className="w-full border-2 my-2"
               {...register("description")}
             />
+             {errors["description"] && <p className="text-red-200">{errors["description"].message}</p>}
           </div>
           <div>
             <h1>Slider Link:</h1>
             <input
-              type="text"
-              required="true"
+              type="text" 
               className="w-full border-2 my-2"
-              {...register("url")}
+              {...register("url",)}
             />
+             {errors["url"] && <p className="text-red-200">{errors["url"].message}</p>}
           </div>
         </div>
 

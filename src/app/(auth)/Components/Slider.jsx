@@ -13,62 +13,66 @@ import { adminFetchApi } from "@/app/utils/httpUtils";
 
 export default function Slider() {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
-  const handleDeleteClick = () => {
+  const [deleteId, setDeleteId] = useState(null);
+  const handleDeleteClick = (id) => {
+    setDeleteId(id);
     setShowDeleteModal(true);
   };
-  const handleConfirmDelete = () => {
+  const handleConfirmDelete = async () => {
     console.log("Delete confirmed");
+    const response = await adminDeleteApi(`/api/v1/banner/${deleteId}`);
+    setDeleteId(null);
     setShowDeleteModal(false);
   };
   const handleCancelDelete = () => {
     setShowDeleteModal(false);
   };
-  const [sliderData, setSliderData] = useState([])
-  const [page, setPage] = useState(1)
-  
+  const [sliderData, setSliderData] = useState([]);
+  const [page, setPage] = useState(1);
+
   const onChange = (pageNumber) => {
-    setPage(pageNumber)
+    setPage(pageNumber);
   };
-  const getSliderDetails = async () =>{
-     try {
-      const data = await adminFetchApi('/api/v1/banner?page=1&limit=10')
-      setSliderData(data)
-     } catch (error) {
-      console.log(error)
-     }
-  }
+  const getSliderDetails = async () => {
+    try {
+      const data = await adminFetchApi("/api/v1/banner?page=1&limit=10");
+      setSliderData(data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
   useEffect(() => {
     const fetchSliderData = async () => {
       try {
-        const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NjJhNDE5NTEyNmUyNzRkYjZhZTY3NzEiLCJpYXQiOjE3MTU5Njc4NTgsImV4cCI6MTcxNjA1NDI1OCwic3ViIjoiNjYyYTQxOTUxMjZlMjc0ZGI2YWU2NzcxIn0.qa3e5E-fqqiChuctlp8EeFALK3IFmzzafOjM6v73L2s';
-  
-        const response = await axios.get(`https://sric.onrender.com/api/v1/banner?page=${page}&limit=10`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-        if(response.status === 200) {
+        const token =
+          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NjJhNDE5NTEyNmUyNzRkYjZhZTY3NzEiLCJpYXQiOjE3MTU5Njc4NTgsImV4cCI6MTcxNjA1NDI1OCwic3ViIjoiNjYyYTQxOTUxMjZlMjc0ZGI2YWU2NzcxIn0.qa3e5E-fqqiChuctlp8EeFALK3IFmzzafOjM6v73L2s";
+
+        const response = await axios.get(
+          `https://sric.onrender.com/api/v1/banner?page=${page}&limit=10`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        if (response.status === 200) {
           //save login token to storage
-          setSliderData(response)
+          setSliderData(response);
         }
 
+        console.log(response, "hellores");
 
-      console.log(response, "hellores")
-  
-        
-        console.log(response.data, 'data');
+        console.log(response.data, "data");
       } catch (error) {
-        console.error('Error fetching slider data:', error);
+        console.error("Error fetching slider data:", error);
       }
     };
 
-    
-  
     fetchSliderData();
   }, [page]);
 
-  console.log('testsetstsee')
-  
+  console.log("testsetstsee");
+
   return (
     <div className=" ">
       <div className="flex row gap-2 mx-4 my-4 text-blue-500">
@@ -93,9 +97,14 @@ export default function Slider() {
         </button>
       </Link>
 
-      <h1 className="mx-4 text-xl py-4"  onClick={()=>{
-          onChange(3)
-        }}>Slider List</h1>
+      <h1
+        className="mx-4 text-xl py-4"
+        onClick={() => {
+          onChange(3);
+        }}
+      >
+        Slider List
+      </h1>
       <hr className="font-bold" />
       <div className="overflow-x-auto">
         <table className=" w-full border-2">
@@ -120,7 +129,6 @@ export default function Slider() {
               <td></td>
               <td className="flex gap-1">
                 <Link href={"/view"}>
-                  
                   <FiEye className="mx-2 text-xl text-black bg-green-500" />
                 </Link>
                 <Link href={"/Edit"}>
@@ -128,7 +136,7 @@ export default function Slider() {
                 </Link>
                 <RiDeleteBin5Line
                   className="text-xl mx-2 bg-red-500"
-                  onClick={handleDeleteClick}
+                  onClick={() => handleDeleteClick("dumyh")}
                 />
               </td>
             </tr>

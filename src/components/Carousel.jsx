@@ -4,7 +4,6 @@ import Slider from "react-slick";
 import Image from "next/image";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import { userFetchApi } from "@/app/utils/httpUtils";
-import { imgUrl } from "../services/service";
 
 function SampleNextArrow(props) {
   const { className, style, onClick } = props;

@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState,Suspense  } from "react";
 import { useForm } from "react-hook-form";
 import { FaChevronRight } from "react-icons/fa";
 import { FaHome } from "react-icons/fa";

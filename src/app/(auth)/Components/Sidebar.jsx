@@ -19,6 +19,9 @@ import {
   Cog6ToothIcon,
   InboxIcon,
   PowerIcon,
+  DocumentDuplicateIcon,
+  ChatBubbleBottomCenterTextIcon,
+  PhotoIcon,
 } from "@heroicons/react/24/solid";
 import { ChevronRightIcon, ChevronDownIcon } from "@heroicons/react/24/outline";
 import React, { useState } from "react";
@@ -49,8 +52,8 @@ export default function Sidebar() {
   };
 
   const closeOptions = () => {
-    setShowPagesOptions(false);
-    setShowTitleOptions(false);
+    setShowPagesOptions(true);
+    setShowTitleOptions(true);
   };
 
   const handleOpen = (value) => {
@@ -59,11 +62,11 @@ export default function Sidebar() {
   return (
     <>
       <Card className="h-[calc(100vh-2rem)] w-full max-w-[13.5rem] shadow-xl shadow-blue-gray-900/5  md:fixed md:min-h-screen">
-        <div className="mb-2 p-4">
+        {/* <div className="mb-2 p-4">
           <Typography variant="h5" color="blue-gray">
             Sidebar
           </Typography>
-        </div>
+        </div> */}
         <List>
           <Accordion
             open={open === 1}
@@ -76,39 +79,94 @@ export default function Sidebar() {
               />
             }
           >
+            <Link href={"/profile"}>
+              <ListItem>
+                <ListItemPrefix>
+                  <PresentationChartBarIcon className="h-5 w-5" />
+                </ListItemPrefix>
+                Dashboard
+              </ListItem>
+            </Link>
+
             <ListItem className="p-0" selected={open === 1}>
               <AccordionHeader
                 onClick={() => handleOpen(1)}
                 className="border-b-0 p-3"
               >
                 <ListItemPrefix>
-                  <PresentationChartBarIcon className="h-5 w-5" />
+                  <DocumentDuplicateIcon className="h-5 w-5" />
                 </ListItemPrefix>
                 <Typography color="blue-gray" className="mr-auto font-normal">
-                  Dashboard
+                  Pages
                 </Typography>
               </AccordionHeader>
             </ListItem>
             <AccordionBody className="py-1">
               <List className="p-0">
-                <ListItem>
-                  <ListItemPrefix>
-                    <ChevronRightIcon strokeWidth={3} className="h-3 w-5" />
-                  </ListItemPrefix>
-                  Analytics
-                </ListItem>
-                <ListItem>
-                  <ListItemPrefix>
-                    <ChevronRightIcon strokeWidth={3} className="h-3 w-5" />
-                  </ListItemPrefix>
-                  Reporting
-                </ListItem>
-                <ListItem>
-                  <ListItemPrefix>
-                    <ChevronRightIcon strokeWidth={3} className="h-3 w-5" />
-                  </ListItemPrefix>
-                  Projects
-                </ListItem>
+                <Link href={"/Logo"}>
+                  <ListItem>
+                    <ListItemPrefix>
+                      <ChevronRightIcon strokeWidth={3} className="h-3 w-5" />
+                    </ListItemPrefix>
+                    Logo
+                  </ListItem>
+                </Link>
+                <Link href={"/Slider"}>
+                  <ListItem>
+                    <ListItemPrefix>
+                      <ChevronRightIcon strokeWidth={3} className="h-3 w-5" />
+                    </ListItemPrefix>
+                    Slider
+                  </ListItem>
+                </Link>
+                <Link href={"/Abouts"}>
+                  <ListItem>
+                    <ListItemPrefix>
+                      <ChevronRightIcon strokeWidth={3} className="h-3 w-5" />
+                    </ListItemPrefix>
+                    About
+                  </ListItem>
+                </Link>
+                <Link href={"/Testimonial"}>
+                  <ListItem>
+                    <ListItemPrefix>
+                      <ChevronRightIcon strokeWidth={3} className="h-3 w-5" />
+                    </ListItemPrefix>
+                    Testimonial List
+                  </ListItem>
+                </Link>
+                <Link href={"/Contact_admin"}>
+                  <ListItem>
+                    <ListItemPrefix>
+                      <ChevronRightIcon strokeWidth={3} className="h-3 w-5" />
+                    </ListItemPrefix>
+                    Contact
+                  </ListItem>
+                </Link>
+                <Link href={"/Service_admin"}>
+                  <ListItem>
+                    <ListItemPrefix>
+                      <ChevronRightIcon strokeWidth={3} className="h-3 w-5" />
+                    </ListItemPrefix>
+                    Service
+                  </ListItem>
+                </Link>
+                <Link href={"/Case_Study"}>
+                  <ListItem>
+                    <ListItemPrefix>
+                      <ChevronRightIcon strokeWidth={3} className="h-3 w-5" />
+                    </ListItemPrefix>
+                    Case Study
+                  </ListItem>
+                </Link>
+                <Link href={"/Program_admin"}>
+                  <ListItem>
+                    <ListItemPrefix>
+                      <ChevronRightIcon strokeWidth={3} className="h-3 w-5" />
+                    </ListItemPrefix>
+                    Program
+                  </ListItem>
+                </Link>
               </List>
             </AccordionBody>
           </Accordion>
@@ -129,31 +187,27 @@ export default function Sidebar() {
                 className="border-b-0 p-3"
               >
                 <ListItemPrefix>
-                  <ShoppingBagIcon className="h-5 w-5" />
+                  <ChatBubbleBottomCenterTextIcon className="h-5 w-5" />
                 </ListItemPrefix>
                 <Typography color="blue-gray" className="mr-auto font-normal">
-                  E-Commerce
+                  Title
                 </Typography>
               </AccordionHeader>
             </ListItem>
             <AccordionBody className="py-1">
               <List className="p-0">
-                <ListItem>
-                  <ListItemPrefix>
-                    <ChevronRightIcon strokeWidth={3} className="h-3 w-5" />
-                  </ListItemPrefix>
-                  Orders
-                </ListItem>
-                <ListItem>
-                  <ListItemPrefix>
-                    <ChevronRightIcon strokeWidth={3} className="h-3 w-5" />
-                  </ListItemPrefix>
-                  Products
-                </ListItem>
+                <Link href={"/Section_admin"}>
+                  <ListItem>
+                    <ListItemPrefix>
+                      <ChevronRightIcon strokeWidth={3} className="h-3 w-5" />
+                    </ListItemPrefix>
+                    Section
+                  </ListItem>
+                </Link>
               </List>
             </AccordionBody>
           </Accordion>
-          <ListItem>
+          {/* <ListItem>
             <ListItemPrefix>
               <InboxIcon className="h-5 w-5" />
             </ListItemPrefix>
@@ -167,33 +221,23 @@ export default function Sidebar() {
                 className="rounded-full"
               />
             </ListItemSuffix>
-          </ListItem>
-          <ListItem>
-            <ListItemPrefix>
-              <UserCircleIcon className="h-5 w-5" />
-            </ListItemPrefix>
-            Profile
-          </ListItem>
-          <ListItem>
-            <ListItemPrefix>
-              <Cog6ToothIcon className="h-5 w-5" />
-            </ListItemPrefix>
-            Settings
-          </ListItem>
-          <ListItem>
-            <ListItemPrefix>
-              <PowerIcon className="h-5 w-5" />
-            </ListItemPrefix>
-            Log Out
-          </ListItem>
+          </ListItem> */}
+          <Link href={"/Media"}>
+            <ListItem>
+              <ListItemPrefix>
+                <PhotoIcon className="h-5 w-5" />
+              </ListItemPrefix>
+              Meida
+            </ListItem>
+          </Link>
         </List>
       </Card>
-      <div className="border border-black p-8 sm:flex md:fixed md:min-h-screen bg-white">
-        {/* Sidebar toggle button for small screens */}
+      {/* <div className="border border-black p-8 sm:flex md:fixed md:min-h-screen bg-white">
+        Sidebar toggle button for small screens
         <div className="md:hidden cursor-pointer" onClick={toggleSidebar}>
           <IoMenu className="text-2xl text-gray-800" />
         </div>
-        {/* Sidebar for medium screens and above */}
+        Sidebar for medium screens and above
         <ul
           className={`${
             showSidebar ? "block" : "hidden"
@@ -289,16 +333,16 @@ export default function Sidebar() {
               </div>
             )}
           </li>
-          {/* <li className="flex my-2" onClick={closeOptions}>
-          <IoIosMail className="text-2xl" /> Message
-        </li> */}
+          <li className="flex my-2" onClick={closeOptions}>
+            <IoIosMail className="text-2xl" /> Message
+          </li>
           <Link href={"/Media"}>
             <li className="flex my-2" onClick={closeOptions}>
               <MdPermMedia className="text-2xl" /> Media
             </li>
           </Link>
         </ul>
-      </div>
+      </div> */}
     </>
   );
 }

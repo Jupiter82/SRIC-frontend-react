@@ -10,6 +10,7 @@ import {
 } from "@/app/utils/httpUtils";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
+
 export default function Slider_Form() {
   const [data, setdata] = useState();
   const [imagePreview, setImagePreview] = useState(null);
@@ -21,9 +22,16 @@ export default function Slider_Form() {
     register,
     handleSubmit,
     reset,
-    watch,
     formState: { errors, isSubmitting },
-  } = useForm({ defaultValues: { title: "" } });
+  } = useForm({
+    defaultValues: {
+      title: "",
+      subTitle: "",
+      description: "",
+      url: "",
+    },
+  });
+
   const onsubmit = async (data) => {
     try {
       const formData = new FormData();
@@ -32,9 +40,15 @@ export default function Slider_Form() {
         ? formData.append("url", data.url)
         : formData.append("url", "https://" + data.url);
       formData.append("status", "active");
-      if (data.image) {
+
+      // Only append image if it's a new image or if the image has changed
+      if (
+        data.image &&
+        (!existingImage || data.image[0].name !== existingImage)
+      ) {
         formData.append("image", data.image[0]);
       }
+
       formData.append("subTitle", data.subTitle);
       formData.append("description", data.description);
 
@@ -53,6 +67,7 @@ export default function Slider_Form() {
       console.error("Something is wrong:", error);
     }
   };
+
   const getUserByID = async (id) => {
     try {
       const result = await adminFetchApi("api/v1/banner", id);
@@ -77,11 +92,12 @@ export default function Slider_Form() {
       getUserByID(id);
     }
   }, [id]);
+
   useEffect(() => {
     if (data) {
       console.log(data, data?.image);
       reset({
-        image: data?.image,
+        image: "",
         title: data?.title,
         subTitle: data?.subTitle,
         description: data?.description,
@@ -108,32 +124,35 @@ export default function Slider_Form() {
       </div>
       <form className="py-4" onSubmit={handleSubmit(onsubmit)}>
         <div className="w-full">
-          <h1>Choose Slider:</h1>
-          <input
-            type="file"
-            accept="image/*"
-            className="w-full border-2 my-2 "
-            {...register("image", {
-              required: existingImage ? false : "Image is required",
-            })}
-            onChange={(e) => {
-              if (e.target.files[0]) {
-                setImagePreview(URL.createObjectURL(e.target.files[0]));
-              }
-            }}
-          />
-          {errors["image"] && (
-            <p className="text-red-200">{errors["image"].message}</p>
-          )}
-          {imagePreview && (
-            <div className="my-2">
-              <img
-                src={imagePreview}
-                alt="Image Preview"
-                className="w-32 h-32 object-cover"
-              />
-            </div>
-          )}
+          <div>
+            <h1>Choose Slider:</h1>
+            <input
+              type="file"
+              accept="image/*"
+              className="w-full border-2 my-2 "
+              {...register("image", {
+                required: existingImage ? false : "Image is required",
+              })}
+              onChange={(e) => {
+                if (e.target.files[0]) {
+                  setImagePreview(URL.createObjectURL(e.target.files[0]));
+                }
+              }}
+            />
+            {errors["image"] && (
+              <p className="text-red-200">{errors["image"].message}</p>
+            )}
+            {imagePreview && (
+              <div className="my-2">
+                <img
+                  src={imagePreview}
+                  alt="Image Preview"
+                  className="w-32 h-32 object-cover"
+                />
+              </div>
+            )}
+          </div>
+
           <div>
             <h1>Slider Title:</h1>
             <input

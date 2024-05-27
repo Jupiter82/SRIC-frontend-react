@@ -1,6 +1,6 @@
-"use client"
+"use client";
 import Link from "next/link";
-import React,{useState} from "react";
+import React, { useState } from "react";
 import { FaChevronRight } from "react-icons/fa";
 import { FaHome } from "react-icons/fa";
 import { FaPlus } from "react-icons/fa";
@@ -32,15 +32,20 @@ export default function Abouts() {
         <h1 className="flex gap-2">
           Pages <FaChevronRight className="my-1" />
         </h1>
-        <Link href={"/Abouts"}> <h1>About</h1></Link>
+        <Link href={"/Abouts"}>
+          {" "}
+          <h1>About</h1>
+        </Link>
       </div>
       <div className="flex mx-6 my-6 text-blue-500">
         <h1 className="flex">Add About </h1>
       </div>
-      <Link href={"/Abouts_Form"}><button className="text-white flex text-xl bg-green-400 rounded-md p-4  mx-4 ">
-        <FaPlus className="mx-2 text-3xl" />
-        Add New
-      </button></Link>
+      <Link href={"/Abouts_Form"}>
+        <button className="text-white flex text-xl bg-green-400 rounded-md p-4  mx-4 ">
+          <FaPlus className="mx-2 text-3xl" />
+          Add New
+        </button>
+      </Link>
 
       <h1 className="mx-4 text-xl py-4">Logo List</h1>
       <hr className="font-bold" />
@@ -79,9 +84,11 @@ export default function Abouts() {
                 <Link href={"/Edit"}>
                   <FiEdit className=" text-xl bg-blue-500" />
                 </Link>
-               
-                  <RiDeleteBin5Line className="text-xl mx-2 bg-red-500"onClick={handleDeleteClick} />
-                
+
+                <RiDeleteBin5Line
+                  className="text-xl mx-2 bg-red-500"
+                  onClick={handleDeleteClick}
+                />
               </td>
             </tr>
           </tbody>

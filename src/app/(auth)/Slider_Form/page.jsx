@@ -13,6 +13,5 @@ export default function SliderPage() {
     <Suspense fallback={<div>Loading...</div>}>
       <Slider_Form />;
     </Suspense>
-  )
-
+  );
 }

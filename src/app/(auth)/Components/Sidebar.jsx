@@ -37,7 +37,7 @@ export default function Sidebar() {
   const [showSidebar, setShowSidebar] = useState(false);
   const [showPagesOptions, setShowPagesOptions] = useState(false);
   const [showTitleOptions, setShowTitleOptions] = useState(false);
-  const [open, setOpen] = React.useState(0);
+  const [open, setOpen] = useState(0);
 
   const toggleSidebar = () => {
     setShowSidebar(!showSidebar);

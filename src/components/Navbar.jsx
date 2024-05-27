@@ -1,11 +1,12 @@
 "use client";
 import Link from "next/link";
 import { useParams, usePathname, useRouter } from "next/navigation";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { IoMenu } from "react-icons/io5";
 
 export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
 
   const toggleMenu = () => {
     setIsMenuOpen((prevState) => !prevState);
@@ -13,13 +14,23 @@ export default function Navbar() {
   const router = useRouter();
 
   const pathname = usePathname();
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollY = window.scrollY;
+      setIsScrolled(scrollY > 0); // Update state based on scroll position
+    };
+
+    window.addEventListener("scroll", handleScroll);
+
+    return () => window.removeEventListener("scroll", handleScroll); // Cleanup
+  }, []);
 
   console.log(pathname === "/Services");
 
   return (
-    <div className="z-50 sticky top-0">
-      <nav className="flex justify-between z-50 items-center py-6 px-8 shadow-md bg-slate-100 text-black">
-        <div className="flex items-center">
+    <div className="z-50 sticky top-0 backdrop-blur">
+      <nav className="flex justify-between items-center   px-8 shadow-md bg-slate-100 text-black">
+        <div className={` flex items-center  ${isScrolled ? "py-2" : "py-6"}`}>
           <Link href={"/"}>
             {/* <img src="" alt="Logo" className="h-8" /> */}
             <h1 className="ml-2">SRIC</h1>

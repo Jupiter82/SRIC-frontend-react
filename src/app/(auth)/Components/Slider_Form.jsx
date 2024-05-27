@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState, } from "react";
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { FaChevronRight } from "react-icons/fa";
 import { FaHome } from "react-icons/fa";
@@ -9,36 +9,46 @@ import {
   adminUpdateApi,
 } from "@/app/utils/httpUtils";
 import Link from "next/link";
-import { useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 export default function Slider_Form() {
   const [data, setdata] = useState();
   const [imagePreview, setImagePreview] = useState(null);
   const searchParams = useSearchParams();
-
+  const [existingImage, setExistingImage] = useState(null);
   const id = searchParams.get("id");
-  console.log(id, "id");
-
+  const navigate = useRouter();
   const {
     register,
     handleSubmit,
     reset,
+    watch,
     formState: { errors, isSubmitting },
   } = useForm({ defaultValues: { title: "" } });
   const onsubmit = async (data) => {
     try {
       const formData = new FormData();
       formData.append("title", data.title);
-      formData.append("url", data.url);
+      data.url.includes("http")
+        ? formData.append("url", data.url)
+        : formData.append("url", "https://" + data.url);
       formData.append("status", "active");
-      formData.append("image", data.image[0]);
+      if (data.image) {
+        formData.append("image", data.image[0]);
+      }
       formData.append("subTitle", data.subTitle);
       formData.append("description", data.description);
+
       if (id) {
         const response = await adminUpdateApi(`/api/v1/banner/${id}`, formData);
+        if (response) {
+          navigate.push("/Slider");
+        }
       } else {
         const response = await adminPostApi("/api/v1/banner", formData);
+        if (response) {
+          navigate.push("/Slider");
+        }
       }
-      console.log(response);
     } catch (error) {
       console.error("Something is wrong:", error);
     }
@@ -49,15 +59,19 @@ export default function Slider_Form() {
       if (result.status === 200) {
         setdata(result.data.result);
         if (result.data.result.image) {
-          setImagePreview(result.data.result.image);
+          setImagePreview(
+            `${process.env.NEXT_PUBLIC_IMAGE_URL}/${result.data.result.image}`
+          );
+          setExistingImage(
+            `${process.env.NEXT_PUBLIC_IMAGE_URL}/${result.data.result.image}`
+          );
         }
       }
     } catch (error) {
       console.log(error);
     }
   };
-  console.log(imagePreview, "image");
-  console.log(data, "sloder");
+
   useEffect(() => {
     if (id) {
       getUserByID(id);
@@ -65,8 +79,9 @@ export default function Slider_Form() {
   }, [id]);
   useEffect(() => {
     if (data) {
+      console.log(data, data?.image);
       reset({
-        image: data?.image[0],
+        image: data?.image,
         title: data?.title,
         subTitle: data?.subTitle,
         description: data?.description,
@@ -98,7 +113,9 @@ export default function Slider_Form() {
             type="file"
             accept="image/*"
             className="w-full border-2 my-2 "
-            {...register("image", { required: "nanf,dmn dsf" })}
+            {...register("image", {
+              required: existingImage ? false : "Image is required",
+            })}
             onChange={(e) => {
               if (e.target.files[0]) {
                 setImagePreview(URL.createObjectURL(e.target.files[0]));
@@ -111,7 +128,7 @@ export default function Slider_Form() {
           {imagePreview && (
             <div className="my-2">
               <img
-                src={process.env.NEXT_PUBLIC_IMAGE_URL + "/" + imagePreview}
+                src={imagePreview}
                 alt="Image Preview"
                 className="w-32 h-32 object-cover"
               />
@@ -168,8 +185,9 @@ export default function Slider_Form() {
           type="submit"
           value="submit"
           className="bg-green-400 text-white my-4 text-2xl p-2 rounded-md"
+          disabled={isSubmitting}
         >
-          Submit
+          {isSubmitting ? "loading" : "Submit"}
         </button>
       </form>
     </div>

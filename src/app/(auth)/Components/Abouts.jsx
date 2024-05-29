@@ -184,7 +184,7 @@ export default function Abouts() {
                         </Typography>
                       </td>
                       <td className={classes}>
-                        <Tooltip content="Edit Slider">
+                        <Tooltip content="Edit About">
                           <IconButton
                             variant="text"
                             onClick={() => {
@@ -194,7 +194,7 @@ export default function Abouts() {
                             <PencilIcon className="h-4 w-4" />
                           </IconButton>
                         </Tooltip>
-                        <Tooltip content="Delete Slider">
+                        <Tooltip content="Delete About">
                           <IconButton
                             variant="text"
                             onClick={() => {

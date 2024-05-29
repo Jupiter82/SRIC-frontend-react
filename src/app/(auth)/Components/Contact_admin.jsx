@@ -227,7 +227,7 @@ export default function Contact_admin() {
                         </Typography>
                       </td>
                       <td className={classes}>
-                        <Tooltip content="Edit Slider">
+                        <Tooltip content="Edit Contact">
                           <IconButton
                             variant="text"
                             onClick={() => {
@@ -237,7 +237,7 @@ export default function Contact_admin() {
                             <PencilIcon className="h-4 w-4" />
                           </IconButton>
                         </Tooltip>
-                        <Tooltip content="Delete Slider">
+                        <Tooltip content="Delete Conract">
                           <IconButton
                             variant="text"
                             onClick={() => {

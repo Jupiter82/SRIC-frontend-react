@@ -204,8 +204,15 @@ export default function Slider_Form() {
             <h1>Rating:</h1>
             <input
               type="number"
+              min={0}
+              max={5}
+              step={1}
               className="w-full border-2 my-2"
-              {...register("rating")}
+              {...register("rating", {
+                required: "Rating is required",
+                min: { value: 0, message: "Rating cannot be less than 0" },
+                max: { value: 5, message: "Rating cannot be more than 5" },
+              })}
             />
             {errors["rating"] && (
               <p className="text-red-200">{errors["rating"].message}</p>

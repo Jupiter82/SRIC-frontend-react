@@ -10,7 +10,7 @@ import {
 } from "@/app/utils/httpUtils";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
-export default function Slider_Form() {
+export default function Contact_Form() {
   const [data, setdata] = useState();
   const searchParams = useSearchParams();
   const id = searchParams.get("id");

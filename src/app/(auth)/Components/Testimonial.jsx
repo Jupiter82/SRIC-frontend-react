@@ -18,7 +18,7 @@ import { FaChevronRight, FaHome, FaPlus } from "react-icons/fa";
 import { adminDeleteApi, adminFetchApi } from "@/app/utils/httpUtils";
 import { useRouter } from "next/navigation";
 
-export default function Contact_admin() {
+export default function Testimonial() {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [sliderData, setSliderData] = useState([]);
@@ -34,7 +34,7 @@ export default function Contact_admin() {
   const deleteUserById = async (id) => {
     //delte ko api with id
     try {
-      const result = await adminDeleteApi("api/v1/contactInfo", id);
+      const result = await adminDeleteApi("api/v1/testimonial", id);
       if (result.status === 200) {
         getSliderDetails();
       }
@@ -51,7 +51,7 @@ export default function Contact_admin() {
   const getSliderDetails = async (pageNumber) => {
     try {
       const response = await adminFetchApi(
-        `/api/v1/contactInfo?page=${pageNumber}&limit=10`
+        `/api/v1/testimonial?page=${pageNumber}&limit=10`
       );
       const fetchedData = response.data;
       setSliderData(fetchedData.result);
@@ -66,15 +66,12 @@ export default function Contact_admin() {
   }, [currentPage]);
 
   const TABLE_HEAD = [
-    "Address Title	",
-    "Address Reference	",
-    "Address",
-    "Working Title	",
-    "Working Hour	",
-    "Hour Off	",
-    "Contact Title	",
-    "Phone",
-    "Email",
+    "Image",
+    "Title",
+    "Name",
+    "Position",
+    "Rating",
+    "Description",
     "Action",
   ];
 
@@ -90,13 +87,13 @@ export default function Contact_admin() {
         <h1 className="flex gap-2">
           Pages <FaChevronRight className="my-1" />
         </h1>
-        <h1>contactInfo</h1>
+        <h1>Testimonial</h1>
       </div>
 
-      <Link href={"/Contact_Form"}>
+      <Link href={"/Testimonial_Form"}>
         <button className="text-white flex text-xl bg-green-400 rounded-md p-4 mx-4">
           <FaPlus className="mx-2 text-3xl" />
-          Add New Contact
+          Add New Testimonial
         </button>
       </Link>
 
@@ -124,18 +121,7 @@ export default function Contact_admin() {
             <tbody>
               {sliderData.map(
                 (
-                  {
-                    addressTitle,
-                    reference,
-                    address,
-                    workingTitle,
-                    hour,
-                    hourOff,
-                    contactTitle,
-                    phone,
-                    email,
-                    _id,
-                  },
+                  { description, image, title, name, position, rating, _id },
                   index
                 ) => {
                   const isLast = index === sliderData.length - 1;
@@ -146,12 +132,29 @@ export default function Contact_admin() {
                   return (
                     <tr key={_id}>
                       <td className={classes}>
+                        <div className="flex items-center gap-3">
+                          <Avatar
+                            src={`${process.env.NEXT_PUBLIC_IMAGE_URL}/${image}`}
+                            alt={title}
+                            size="md"
+                            className="border border-blue-gray-50 bg-blue-gray-50/50 object-contain p-1"
+                          />
+                          <Typography
+                            variant="small"
+                            color="blue-gray"
+                            className="font-bold"
+                          >
+                            {image}
+                          </Typography>
+                        </div>
+                      </td>
+                      <td className={classes}>
                         <Typography
                           variant="small"
                           color="blue-gray"
                           className="font-normal"
                         >
-                          {addressTitle}
+                          {title}
                         </Typography>
                       </td>
                       <td className={classes}>
@@ -160,84 +163,49 @@ export default function Contact_admin() {
                           color="blue-gray"
                           className="font-normal"
                         >
-                          {reference}
-                        </Typography>
-                      </td>{" "}
-                      <td className={classes}>
-                        <Typography
-                          variant="small"
-                          color="blue-gray"
-                          className="font-normal"
-                        >
-                          {address}
-                        </Typography>
-                      </td>{" "}
-                      <td className={classes}>
-                        <Typography
-                          variant="small"
-                          color="blue-gray"
-                          className="font-normal"
-                        >
-                          {workingTitle}
-                        </Typography>
-                      </td>{" "}
-                      <td className={classes}>
-                        <Typography
-                          variant="small"
-                          color="blue-gray"
-                          className="font-normal"
-                        >
-                          {hour}
-                        </Typography>
-                      </td>{" "}
-                      <td className={classes}>
-                        <Typography
-                          variant="small"
-                          color="blue-gray"
-                          className="font-normal"
-                        >
-                          {hourOff}
-                        </Typography>
-                      </td>{" "}
-                      <td className={classes}>
-                        <Typography
-                          variant="small"
-                          color="blue-gray"
-                          className="font-normal"
-                        >
-                          {contactTitle}
-                        </Typography>
-                      </td>{" "}
-                      <td className={classes}>
-                        <Typography
-                          variant="small"
-                          color="blue-gray"
-                          className="font-normal"
-                        >
-                          {phone}
-                        </Typography>
-                      </td>{" "}
-                      <td className={classes}>
-                        <Typography
-                          variant="small"
-                          color="blue-gray"
-                          className="font-normal"
-                        >
-                          {email}
+                          {name}
                         </Typography>
                       </td>
                       <td className={classes}>
-                        <Tooltip content="Edit Slider">
+                        <Typography
+                          variant="small"
+                          color="blue-gray"
+                          className="font-normal"
+                        >
+                          {position}
+                        </Typography>
+                      </td>
+
+                      <td className={classes}>
+                        <Typography
+                          variant="small"
+                          color="blue-gray"
+                          className="font-normal"
+                        >
+                          {rating}
+                        </Typography>
+                      </td>
+                      <td className={classes}>
+                        <Typography
+                          variant="small"
+                          color="blue-gray"
+                          className="font-normal"
+                        >
+                          {description}
+                        </Typography>
+                      </td>
+                      <td className={classes}>
+                        <Tooltip content="Edit Testimonial">
                           <IconButton
                             variant="text"
                             onClick={() => {
-                              router.push(`/Contact_Form?id=${_id}`);
+                              router.push(`/Testimonial_Form?id=${_id}`);
                             }}
                           >
                             <PencilIcon className="h-4 w-4" />
                           </IconButton>
                         </Tooltip>
-                        <Tooltip content="Delete Slider">
+                        <Tooltip content="Delete Testimonial">
                           <IconButton
                             variant="text"
                             onClick={() => {

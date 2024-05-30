@@ -1,5 +1,6 @@
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import "react-quill/dist/quill.snow.css";
 import "./globals.css";
 export const metadata = {
   title: "Admin Page",
@@ -9,9 +10,7 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body className="">
-        {children}
-      </body>
+      <body className="">{children}</body>
     </html>
   );
 }

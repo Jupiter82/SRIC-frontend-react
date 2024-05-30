@@ -1,10 +1,17 @@
-import React from 'react'
-import Service_Form from '../Components/Service_Form'
+import { Suspense } from "react";
 
-export default function Service_FormPage() {
+import dynamic from "next/dynamic";
+
+// Dynamically import the Slider_Form component
+const Service_Form = dynamic(() => import("../Components/Testimonial_Form"), {
+  suspense: true,
+  ssr: false, // Ensure this component is only loaded on the client side
+});
+
+export default function ServiceForm() {
   return (
-    <div>
-      <Service_Form />
-    </div>
-  )
+    <Suspense fallback={<div>Loading...</div>}>
+      <Service_Form />;
+    </Suspense>
+  );
 }

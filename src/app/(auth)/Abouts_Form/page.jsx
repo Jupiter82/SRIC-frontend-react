@@ -1,10 +1,17 @@
-import React from 'react'
-import Abouts_Form from '../Components/Abouts_Form'
+import { Suspense } from "react";
 
-export default function Abouts_FormPage() {
+import dynamic from "next/dynamic";
+
+// Dynamically import the Slider_Form component
+const Abouts_Form = dynamic(() => import("../Components/Abouts_Form"), {
+  suspense: true,
+  ssr: false, // Ensure this component is only loaded on the client side
+});
+
+export default function AboutPage() {
   return (
-    <div>
-      <Abouts_Form />
-    </div>
-  )
+    <Suspense fallback={<div>Loading...</div>}>
+      <Abouts_Form />;
+    </Suspense>
+  );
 }

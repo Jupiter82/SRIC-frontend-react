@@ -1,10 +1,17 @@
-import React from 'react'
-import Contact_Form from '../Components/Contact_Form'
+import { Suspense } from "react";
 
-export default function Contact_FormPage() {
+import dynamic from "next/dynamic";
+
+// Dynamically import the Slider_Form component
+const Contact_Form = dynamic(() => import("../Components/Contact_Form"), {
+  suspense: true,
+  ssr: false, // Ensure this component is only loaded on the client side
+});
+
+export default function ContactForm() {
   return (
-    <div>
-      <Contact_Form />
-    </div>
-  )
+    <Suspense fallback={<div>Loading...</div>}>
+      <Contact_Form />;
+    </Suspense>
+  );
 }

@@ -1,10 +1,17 @@
-import React from "react";
-import Logo_form from "../Components/Logo_form";
+import { Suspense } from "react";
 
-export default function Logo_FormPage() {
+import dynamic from "next/dynamic";
+
+// Dynamically import the Slider_Form component
+const Logo_form = dynamic(() => import("../Components/Logo_form"), {
+  suspense: true,
+  ssr: false, // Ensure this component is only loaded on the client side
+});
+
+export default function Logoform() {
   return (
-    <div>
-      <Logo_form />
-    </div>
+    <Suspense fallback={<div>Loading...</div>}>
+      <Logo_form />;
+    </Suspense>
   );
 }

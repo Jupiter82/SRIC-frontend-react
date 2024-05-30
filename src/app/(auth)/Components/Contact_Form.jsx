@@ -44,6 +44,7 @@ export default function Contact_Form() {
       formData.append("hourOff", data.hourOff);
       formData.append("contactTitle", data.contactTitle);
       formData.append("phone", data.phone);
+      formData.append("status", "active");
       formData.append("email", data.email);
 
       if (id) {

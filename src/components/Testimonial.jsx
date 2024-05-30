@@ -10,7 +10,7 @@ import React, { useEffect, useState } from "react";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import Image from "next/image";
+import { userFetchApi } from "@/app/utils/httpUtils";
 
 function StarIcon() {
   return (
@@ -28,9 +28,38 @@ function StarIcon() {
     </svg>
   );
 }
+function Rating({ rating }) {
+  const stars = Array.from({ length: rating });
+
+  return (
+    <div className="flex items-center gap-0">
+      {stars.map((_, index) => (
+        <StarIcon key={index} />
+      ))}
+    </div>
+  );
+}
 
 export default function Testimonial() {
   const [slidesToShow, setSlidesToShow] = useState(3);
+  const [data, setData] = useState([]);
+
+  const getTestimonialData = async () => {
+    try {
+      const response = await userFetchApi("api/v1/testimonial/home");
+      console.log(response);
+      if (response.status === 200) {
+        setData(response.data.result);
+      }
+      console.log(response);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    getTestimonialData();
+  }, []);
 
   useEffect(() => {
     function handleResize() {
@@ -67,25 +96,6 @@ export default function Testimonial() {
         }}
       >
         <ul style={{ margin: "0px" }}> {dots} </ul>
-        {/* </div>
-    ),
-    customPaging: (i) => (
-      <div
-        style={{
-          width: "26px",
-          color: "black",
-          // backgroundColor:"red",
-          
-          // border: "4px blue solid",
-          padding:"2px",
-          gap:"4px",
-          zIndex: 1,
-          
-        }}
-        className="dot"
-
-      >
-        {i+1} */}
       </div>
     ),
   };
@@ -97,185 +107,44 @@ export default function Testimonial() {
         <h2 className="text-4xl">Our Students Say</h2>
       </div>
       <Slider {...settings}>
-        <div>
-          <TestimonialSlide
-            image="/images/testimonial-1.jpg"
-            name="Client Name"
-            profession="Profession"
-            text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
-          />
-        </div>
-        <div>
-          <TestimonialSlide
-            image="/images/testimonial-2.jpg"
-            name="Client Name"
-            profession="Profession"
-            text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
-          />
-        </div>
-        <div>
-          <Card
-            color="transparent"
-            shadow={false}
-            className="w-full max-w-[26rem]"
-          >
-            <CardHeader
+        {data.map((item, index) => (
+          <div key={index}>
+            <Card
               color="transparent"
-              floated={false}
               shadow={false}
-              className="mx-0 flex items-center gap-4 pt-0 pb-8"
+              className="w-full max-w-[26rem]"
             >
-              <Avatar
-                size="lg"
-                variant="circular"
-                src="https://images.unsplash.com/photo-1633332755192-727a05c4013d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1480&q=80"
-                alt="tania andrew"
-              />
-              <div className="flex w-full flex-col gap-0.5">
-                <div className="flex items-center justify-between">
-                  <Typography variant="h5" color="blue-gray">
-                    Tania Andrew
-                  </Typography>
-                  <div className="5 flex items-center gap-0">
-                    <StarIcon />
-                    <StarIcon />
-                    <StarIcon />
-                    <StarIcon />
-                    <StarIcon />
+              <CardHeader
+                color="transparent"
+                floated={false}
+                shadow={false}
+                className="mx-0 flex items-center gap-4 pt-0 pb-8"
+              >
+                <Avatar
+                  size="lg"
+                  variant="circular"
+                  src={process.env.NEXT_PUBLIC_IMAGE_URL + "/" + item.image}
+                  alt="tania andrew"
+                />
+                <div className="flex w-full flex-col  gap-2">
+                  <div className="flex items-center justify-between">
+                    <Typography variant="h5" color="blue-gray">
+                      {item.name}
+                    </Typography>
+                    <div className="5 flex items-center gap-4">
+                      <Rating rating={item.rating} />
+                    </div>
                   </div>
+                  <Typography color="blue-gray">{item.position}</Typography>
                 </div>
-                <Typography color="blue-gray">
-                  Frontend Lead @ Google
-                </Typography>
-              </div>
-            </CardHeader>
-            <CardBody className="mb-6 p-0">
-              <Typography>
-                &quot;I found solution to all my design needs from Creative Tim.
-                I use them as a freelancer in my hobby projects for fun! And its
-                really affordable, very humble guys !!!&quot;
-              </Typography>
-            </CardBody>
-          </Card>
-        </div>
-        <div>
-          <Card
-            color="transparent"
-            shadow={false}
-            className="w-full max-w-[26rem]"
-          >
-            <CardHeader
-              color="transparent"
-              floated={false}
-              shadow={false}
-              className="mx-0 flex items-center gap-4 pt-0 pb-8"
-            >
-              <Avatar
-                size="lg"
-                variant="circular"
-                src="https://images.unsplash.com/photo-1633332755192-727a05c4013d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1480&q=80"
-                alt="tania andrew"
-              />
-              <div className="flex w-full flex-col gap-0.5">
-                <div className="flex items-center justify-between">
-                  <Typography variant="h5" color="blue-gray">
-                    Tania Andrew
-                  </Typography>
-                  <div className="5 flex items-center gap-0">
-                    <StarIcon />
-                    <StarIcon />
-                    <StarIcon />
-                    <StarIcon />
-                    <StarIcon />
-                  </div>
-                </div>
-                <Typography color="blue-gray">
-                  Frontend Lead @ Google
-                </Typography>
-              </div>
-            </CardHeader>
-            <CardBody className="mb-6 p-0">
-              <Typography>
-                &quot;I found solution to all my design needs from Creative Tim.
-                I use them as a freelancer in my hobby projects for fun! And its
-                really affordable, very humble guys !!!&quot;
-              </Typography>
-            </CardBody>
-          </Card>
-        </div>
-        <div>
-          <Card
-            color="transparent"
-            shadow={false}
-            className="w-full max-w-[26rem]"
-          >
-            <CardHeader
-              color="transparent"
-              floated={false}
-              shadow={false}
-              className="mx-0 flex items-center gap-4 pt-0 pb-8"
-            >
-              <Avatar
-                size="lg"
-                variant="circular"
-                src="https://images.unsplash.com/photo-1633332755192-727a05c4013d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1480&q=80"
-                alt="tania andrew"
-              />
-              <div className="flex w-full flex-col gap-0.5">
-                <div className="flex items-center justify-between">
-                  <Typography variant="h5" color="blue-gray">
-                    Tania Andrew
-                  </Typography>
-                  <div className="5 flex items-center gap-0">
-                    <StarIcon />
-                    <StarIcon />
-                    <StarIcon />
-                    <StarIcon />
-                    <StarIcon />
-                  </div>
-                </div>
-                <Typography color="blue-gray">
-                  Frontend Lead @ Google
-                </Typography>
-              </div>
-            </CardHeader>
-            <CardBody className="mb-6 p-0">
-              <Typography>
-                &quot;I found solution to all my design needs from Creative Tim.
-                I use them as a freelancer in my hobby projects for fun! And its
-                really affordable, very humble guys !!!&quot;
-              </Typography>
-            </CardBody>
-          </Card>
-        </div>
-        <div>
-          <TestimonialSlide
-            image="/images/testimonial-4.jpg"
-            name="Client Name"
-            profession="Profession"
-            text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
-          />
-        </div>
+              </CardHeader>
+              <CardBody className="mb-6 p-0">
+                <Typography>{item.description}</Typography>
+              </CardBody>
+            </Card>
+          </div>
+        ))}
       </Slider>
     </div>
   );
 }
-
-const TestimonialSlide = ({ image, name, profession, text }) => (
-  <div className="testimonial-slide">
-    <div className="image-container">
-      <Image
-        src={image}
-        width={100}
-        height={100}
-        className="p-4 mx-auto my-0 rounded-full"
-        alt=""
-      />
-    </div>
-    <div className="text-center px-2 ">
-      <h1 className="">{name}</h1>
-      <h1 className="">{profession}</h1>
-      <p className="px-2 bg-blue-100  py-5 rounded-md">{text}</p>
-    </div>
-  </div>
-);

@@ -21,7 +21,7 @@ import { useRouter } from "next/navigation";
 export default function Testimonial() {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
-  const [sliderData, setSliderData] = useState([]);
+  const [testimonialData, settestimonialData] = useState([]);
   const router = useRouter();
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [deleteId, setDeleteId] = useState(null);
@@ -36,25 +36,25 @@ export default function Testimonial() {
     try {
       const result = await adminDeleteApi("api/v1/testimonial", id);
       if (result.status === 200) {
-        getSliderDetails();
+        gettestimonialDetails();
       }
     } catch (error) {
       console.log(error);
     }
   };
-  console.log(sliderData, "test");
+  console.log(testimonialData, "test");
 
   const changePage = (pageNumber) => {
     setCurrentPage(pageNumber);
   };
 
-  const getSliderDetails = async (pageNumber) => {
+  const gettestimonialDetails = async (pageNumber) => {
     try {
       const response = await adminFetchApi(
         `/api/v1/testimonial?page=${pageNumber}&limit=10`
       );
       const fetchedData = response.data;
-      setSliderData(fetchedData.result);
+      settestimonialData(fetchedData.result);
       setTotalPages(fetchedData.totalPages);
     } catch (error) {
       console.error(error);
@@ -62,7 +62,7 @@ export default function Testimonial() {
   };
 
   useEffect(() => {
-    getSliderDetails(currentPage);
+    gettestimonialDetails(currentPage);
   }, [currentPage]);
 
   const TABLE_HEAD = [
@@ -72,6 +72,7 @@ export default function Testimonial() {
     "Position",
     "Rating",
     "Description",
+    "Status",
     "Action",
   ];
 
@@ -119,12 +120,21 @@ export default function Testimonial() {
               </tr>
             </thead>
             <tbody>
-              {sliderData.map(
+              {testimonialData.map(
                 (
-                  { description, image, title, name, position, rating, _id },
+                  {
+                    description,
+                    image,
+                    title,
+                    name,
+                    position,
+                    rating,
+                    status,
+                    _id,
+                  },
                   index
                 ) => {
-                  const isLast = index === sliderData.length - 1;
+                  const isLast = index === testimonialData.length - 1;
                   const classes = isLast
                     ? "p-4"
                     : "p-4 border-b border-blue-gray-50";
@@ -192,6 +202,15 @@ export default function Testimonial() {
                           className="font-normal"
                         >
                           {description}
+                        </Typography>
+                      </td>
+                      <td className={classes}>
+                        <Typography
+                          variant="small"
+                          color="blue-gray"
+                          className="font-normal"
+                        >
+                          {status}
                         </Typography>
                       </td>
                       <td className={classes}>

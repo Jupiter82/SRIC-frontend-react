@@ -69,8 +69,8 @@ export default function Abouts() {
     "Image",
     "Title",
     "Sub-Title",
-    "Skill",
     "Description",
+    "Skill",
     "Action",
   ];
 
@@ -120,7 +120,7 @@ export default function Abouts() {
             <tbody>
               {sliderData.map(
                 (
-                  { description, image, skill, subTitle, title, _id },
+                  { description, image, subTitle, skill, title, _id },
                   index
                 ) => {
                   const isLast = index === sliderData.length - 1;
@@ -162,15 +162,6 @@ export default function Abouts() {
                           color="blue-gray"
                           className="font-normal"
                         >
-                          {skill}
-                        </Typography>
-                      </td>
-                      <td className={classes}>
-                        <Typography
-                          variant="small"
-                          color="blue-gray"
-                          className="font-normal"
-                        >
                           {subTitle}
                         </Typography>
                       </td>
@@ -183,6 +174,19 @@ export default function Abouts() {
                           {description}
                         </Typography>
                       </td>
+                      <td className={classes}>
+                        {skill.map((sk, idx) => (
+                          <Typography
+                            key={idx}
+                            variant="small"
+                            color="blue-gray"
+                            className="font-normal"
+                          >
+                            {sk.title}
+                          </Typography>
+                        ))}
+                      </td>
+
                       <td className={classes}>
                         <Tooltip content="Edit About">
                           <IconButton

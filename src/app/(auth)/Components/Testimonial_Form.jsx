@@ -29,6 +29,7 @@ export default function Slider_Form() {
       description: "",
       name: "",
       position: "",
+      status: "",
       rating: "",
     },
   });
@@ -40,6 +41,7 @@ export default function Slider_Form() {
       formData.append("name", data.name);
       formData.append("position", data.position);
       formData.append("rating", data.rating);
+      formData.append("status", data.status);
 
       // Only append image if it's a new image or if the image has changed
       if (
@@ -104,6 +106,7 @@ export default function Slider_Form() {
         description: data?.description,
         name: data?.name,
         position: data?.position,
+        status: data?.status,
         rating: data?.rating,
       });
     }
@@ -169,13 +172,12 @@ export default function Slider_Form() {
           </div>
           <div>
             <h1>Testimonial Description:</h1>
-            <input
-              type="text"
+            <textarea
               className="w-full border-2 my-2"
               {...register("description")}
             />
-            {errors["description"] && (
-              <p className="text-red-200">{errors["description"].message}</p>
+            {errors.description && (
+              <p className="text-red-200">{errors.description.message}</p>
             )}
           </div>
           <div>
@@ -216,6 +218,19 @@ export default function Slider_Form() {
             />
             {errors["rating"] && (
               <p className="text-red-200">{errors["rating"].message}</p>
+            )}
+          </div>
+          <div>
+            <h1>Status:</h1>
+            <select
+              className="w-full border-2 my-2"
+              {...register("status", { required: "status is required" })}
+            >
+              <option value="active">Active</option>
+              <option value="inactive">Inactive</option>
+            </select>
+            {errors["status"] && (
+              <p className="text-red-200">{errors["status"].message}</p>
             )}
           </div>
         </div>

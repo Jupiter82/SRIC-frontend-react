@@ -15,6 +15,7 @@ const getIconComponent = async (iconNameWithPrefix) => {
   const prefixToPackageMap = {
     fa: "react-icons/fa",
     fi: "react-icons/fi",
+    ci: "react-icons/ci",
     // add more mappings for other icon packages as needed
   };
 
@@ -50,7 +51,6 @@ export default function Service_Form() {
     register,
     handleSubmit,
     reset,
-    watch,
     setValue,
     formState: { errors, isSubmitting },
   } = useForm({
@@ -59,7 +59,6 @@ export default function Service_Form() {
       subTitle: "",
       description: "",
       icon: "",
-      image: null,
     },
   });
   const onsubmit = async (data) => {
@@ -226,13 +225,12 @@ export default function Service_Form() {
 
           <div>
             <h1>Service Description:</h1>
-            <input
-              type="text"
+            <textarea
               className="w-full border-2 my-2"
               {...register("description")}
             />
-            {errors["description"] && (
-              <p className="text-red-200">{errors["description"].message}</p>
+            {errors.description && (
+              <p className="text-red-200">{errors.description.message}</p>
             )}
           </div>
         </div>

@@ -65,7 +65,14 @@ export default function Slider() {
     getSliderDetails(currentPage);
   }, [currentPage]);
 
-  const TABLE_HEAD = ["Image", "Title", "Sub-Title", "Description", "Action"];
+  const TABLE_HEAD = [
+    "Image",
+    "Title",
+    "Sub-Title",
+    "Description",
+    "Status",
+    "Action",
+  ];
 
   return (
     <>
@@ -112,7 +119,10 @@ export default function Slider() {
             </thead>
             <tbody>
               {sliderData.map(
-                ({ description, image, subTitle, title, _id }, index) => {
+                (
+                  { description, image, subTitle, title, status, _id },
+                  index
+                ) => {
                   const isLast = index === sliderData.length - 1;
                   const classes = isLast
                     ? "p-4"
@@ -162,6 +172,15 @@ export default function Slider() {
                           className="font-normal"
                         >
                           {description}
+                        </Typography>
+                      </td>
+                      <td className={classes}>
+                        <Typography
+                          variant="small"
+                          color="blue-gray"
+                          className="font-normal"
+                        >
+                          {status}
                         </Typography>
                       </td>
                       <td className={classes}>

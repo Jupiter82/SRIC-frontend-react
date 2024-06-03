@@ -1,8 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { FaChevronRight } from "react-icons/fa";
-import { FaHome } from "react-icons/fa";
+import { FaChevronRight, FaHome } from "react-icons/fa";
 import {
   adminFetchApi,
   adminPostApi,
@@ -10,57 +9,47 @@ import {
 } from "@/app/utils/httpUtils";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
-// Function to dynamically import icons from various packages
-const getIconComponent = async (iconNameWithPrefix) => {
-  const prefixToPackageMap = {
-    fa: "react-icons/fa",
-    fi: "react-icons/fi",
-    ci: "react-icons/ci",
-    // add more mappings for other icon packages as needed
-  };
+import * as lucideIcons from "lucide-react";
 
-  const prefix = iconNameWithPrefix.slice(0, 2); // extract the prefix (first two characters)
-  const iconName = iconNameWithPrefix.slice(2); // extract the actual icon name
-
-  if (!prefixToPackageMap[prefix]) {
-    console.error(`Unsupported icon prefix: ${prefix}`);
-    return null;
-  }
-
-  try {
-    const { [iconName]: Icon } = await import(`${prefixToPackageMap[prefix]}`);
-    return Icon ? <Icon /> : null;
-  } catch (error) {
-    console.error(
-      `Icon ${iconName} not found in package ${prefixToPackageMap[prefix]}:`,
-      error
-    );
-    return null;
-  }
-};
 export default function Service_Form() {
-  const [data, setdata] = useState();
+  const [data, setData] = useState();
   const [imagePreview, setImagePreview] = useState(null);
-  const [iconPreview, setIconPreview] = useState(null);
   const searchParams = useSearchParams();
   const [existingImage, setExistingImage] = useState(null);
-  const [existingIcon, setExistingIcon] = useState(null);
+  const [iconName, setIconName] = useState("");
   const id = searchParams.get("id");
   const navigate = useRouter();
   const {
     register,
     handleSubmit,
     reset,
-    setValue,
     formState: { errors, isSubmitting },
   } = useForm({
     defaultValues: {
       title: "",
-      subTitle: "",
       description: "",
       icon: "",
     },
   });
+
+  useEffect(() => {
+    if (id) {
+      getUserByID(id);
+    }
+  }, [id]);
+
+  useEffect(() => {
+    if (data) {
+      reset({
+        image: data?.image,
+        icon: data?.icon,
+        title: data?.title,
+        description: data?.description,
+      });
+      setIconName(data?.icon);
+    }
+  }, [data, reset]);
+
   const onsubmit = async (data) => {
     try {
       const formData = new FormData();
@@ -91,9 +80,10 @@ export default function Service_Form() {
       console.error("Something is wrong:", error);
     }
   };
+
   const getUserByID = async (id) => {
     try {
-      const result = await adminFetchApi("api/v1/service", id);
+      const result = await adminFetchApi(`api/v1/service/${id}`);
       if (result.status === 200) {
         setData(result.data.result);
 
@@ -105,40 +95,17 @@ export default function Service_Form() {
             `${process.env.NEXT_PUBLIC_IMAGE_URL}/${result.data.result.image}`
           );
         }
-        if (result.data.result.icon) {
-          setExistingIcon(result.data.result.icon);
-        }
       }
     } catch (error) {
       console.log(error);
     }
   };
 
-  useEffect(() => {
-    if (id) {
-      getUserByID(id);
-    }
-  }, [id]);
-  useEffect(() => {
-    if (data) {
-      reset({
-        image: data?.image,
-        icon: data?.icon,
-        title: data?.title,
-        subTitle: data?.subTitle,
-        description: data?.description,
-      });
-      if (data?.icon) {
-        setIconPreview(data?.icon);
-      }
-    }
-  }, [data, reset]);
-  const handleIconChange = async (e) => {
-    const iconNameWithPrefix = e.target.value;
-    setValue("icon", iconNameWithPrefix);
-    const IconComponent = await getIconComponent(iconNameWithPrefix);
-    setIconPreview(IconComponent);
+  const IconComponent = lucideIcons[iconName];
+  const capitalizeFirstLetter = (str) => {
+    return str.charAt(0).toUpperCase() + str.slice(1);
   };
+
   return (
     <div className="mx-4">
       <div className="flex row gap-2 mx-4 my-4 text-blue-500">
@@ -185,20 +152,31 @@ export default function Service_Form() {
             </div>
           )}
           <div>
-            <h1>Choose Icon:</h1>
+            <h1>Service Icon:</h1>
             <input
               type="text"
-              placeholder="Enter icon name with prefix (e.g., faBeer, fiCoffee)"
               className="w-full border-2 my-2"
-              {...register("icon", {
-                required: existingIcon ? false : "Icon is required",
-              })}
-              onChange={handleIconChange}
+              {...register("icon", { required: "icon is required" })}
+              onChange={(e) =>
+                setIconName(capitalizeFirstLetter(e.target.value))
+              }
             />
-            {errors.icon && (
-              <p className="text-red-200">{errors.icon.message}</p>
+            {errors["icon"] && (
+              <p className="text-red-200">{errors["icon"].message}</p>
             )}
-            {iconPreview && <div className="my-2">{iconPreview}</div>}
+            <div className="icon-preview my-2">
+              {IconComponent ? <IconComponent /> : <p>Loading icon...</p>}
+            </div>
+            <p className="text-gray-500">
+              Choose icon from{" "}
+              <a
+                href="https://lucide.dev/icons/"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Lucide icons
+              </a>{" "}
+            </p>
           </div>
           <div>
             <h1>Service Title:</h1>
@@ -209,17 +187,6 @@ export default function Service_Form() {
             />
             {errors["title"] && (
               <p className="text-red-200">{errors["title"].message}</p>
-            )}
-          </div>
-          <div>
-            <h1>Sub Title:</h1>
-            <input
-              type="text"
-              className="w-full border-2 my-2"
-              {...register("subTitle", { required: "sub title is required" })}
-            />
-            {errors["subTitle"] && (
-              <p className="text-red-200">{errors["subTitle"].message}</p>
             )}
           </div>
 

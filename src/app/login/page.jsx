@@ -1,33 +1,32 @@
-"use client"
+"use client";
 import { adminPostApi } from "@/app/utils/httpUtils";
 import { useRouter } from "next/navigation";
-import { useState,useEffect } from "react";
+import { useState, useEffect } from "react";
 const LoginPage = () => {
   const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await adminPostApi("/api/v1/auth/login",{
+      const response = await adminPostApi("/api/v1/auth/login", {
         email,
         password,
-      })
-      localStorage.setItem("token", response.data.result.token);  
+      });
+      localStorage.setItem("token", response.data.result.token);
       router.push("/profile");
     } catch (error) {
       console.error("Something is wrong", error);
-     
     }
   };
-  useEffect(()=>{
-    const token = localStorage.getItem("token")
-    if(token){
-      router.push("/profile")
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      router.push("/profile");
     }
-  },[router])
-  
+  }, [router]);
+
   return (
     <div className=" flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-md w-full space-y-8">

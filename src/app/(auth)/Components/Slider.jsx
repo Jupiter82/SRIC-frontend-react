@@ -25,6 +25,7 @@ export default function Slider() {
   const router = useRouter();
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [deleteId, setDeleteId] = useState(null);
+  const [hasMorePages, setHasMorePages] = useState(true); // Add this line
 
   const handleDeleteClick = (id) => {
     setDeleteId(id);
@@ -56,6 +57,7 @@ export default function Slider() {
       const fetchedData = response.data;
       setSliderData(fetchedData.result);
       setTotalPages(fetchedData.totalPages);
+      setHasMorePages(fetchedData.totalPages > pageNumber); // Update this line
     } catch (error) {
       console.error(error);
     }
@@ -229,13 +231,13 @@ export default function Slider() {
               value={currentPage}
               onChange={(e) => setCurrentPage(e.target.value)}
             />
-            <Typography variant="small">of 10</Typography>
+            <Typography variant="small">of {totalPages}</Typography>
           </div>
           <Button
             variant="text"
             className="flex items-center gap-2 rounded-full"
             onClick={() => changePage(currentPage + 1)}
-            disabled={currentPage === totalPages}
+            disabled={currentPage === totalPages || !hasMorePages}
           >
             Next
             <ArrowRightIcon strokeWidth={2} className="h-4 w-4" />

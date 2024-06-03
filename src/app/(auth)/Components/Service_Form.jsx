@@ -41,7 +41,7 @@ export default function Service_Form() {
   useEffect(() => {
     if (data) {
       reset({
-        image: data?.image,
+        image: "",
         icon: data?.icon,
         title: data?.title,
         description: data?.description,
@@ -156,7 +156,7 @@ export default function Service_Form() {
             <input
               type="text"
               className="w-full border-2 my-2"
-              {...register("icon", { required: "icon is required" })}
+              {...register("icon", { required: "Icon is required" })}
               onChange={(e) =>
                 setIconName(capitalizeFirstLetter(e.target.value))
               }
@@ -176,6 +176,7 @@ export default function Service_Form() {
               >
                 Lucide icons
               </a>{" "}
+              First letter is required to be capital
             </p>
           </div>
           <div>
@@ -183,7 +184,7 @@ export default function Service_Form() {
             <input
               type="text"
               className="w-full border-2 my-2"
-              {...register("title", { required: "TITLE is required" })}
+              {...register("title", { required: "Title is required" })}
             />
             {errors["title"] && (
               <p className="text-red-200">{errors["title"].message}</p>
@@ -208,7 +209,7 @@ export default function Service_Form() {
           className="bg-green-400 text-white my-4 text-2xl p-2 rounded-md"
           disabled={isSubmitting}
         >
-          {isSubmitting ? "loading" : "Submit"}
+          {isSubmitting ? "Loading..." : "Submit"}
         </button>
       </form>
     </div>

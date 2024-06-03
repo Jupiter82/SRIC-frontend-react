@@ -10,6 +10,8 @@ import {
 } from "@/app/utils/httpUtils";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
+import { toast } from "react-toastify";
+
 export default function Logo_Form() {
   const [data, setdata] = useState();
   const [imagePreview, setImagePreview] = useState(null);
@@ -23,6 +25,7 @@ export default function Logo_Form() {
     reset,
     formState: { errors, isSubmitting },
   } = useForm({ defaultValues: { title: "" } });
+
   const onsubmit = async (data) => {
     try {
       const formData = new FormData();
@@ -35,18 +38,22 @@ export default function Logo_Form() {
       if (id) {
         const response = await adminUpdateApi(`/api/v1/logo/${id}`, formData);
         if (response) {
+          toast.success("Logo updated successfully");
           navigate.push("/Logo");
         }
       } else {
         const response = await adminPostApi("/api/v1/logo", formData);
         if (response) {
+          toast.success("Logo added successfully");
           navigate.push("/Logo");
         }
       }
     } catch (error) {
       console.error("Something is wrong:", error);
+      toast.error("Something went wrong. Please try again.");
     }
   };
+
   const getUserByID = async (id) => {
     try {
       const result = await adminFetchApi("api/v1/logo", id);
@@ -71,15 +78,16 @@ export default function Logo_Form() {
       getUserByID(id);
     }
   }, [id]);
+
   useEffect(() => {
     if (data) {
-      console.log(data, data?.image);
       reset({
         image: "",
         title: data?.title,
       });
     }
   }, [data, reset]);
+
   return (
     <div className="mx-4">
       <div className="flex row gap-2 mx-4 my-4 text-blue-500">

@@ -9,6 +9,7 @@ import {
 } from "@/app/utils/httpUtils";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
+import { toast } from "react-toastify";
 
 export default function Abouts_Form() {
   const [data, setData] = useState(null);
@@ -65,11 +66,13 @@ export default function Abouts_Form() {
       if (id) {
         const response = await adminUpdateApi(`/api/v1/about/${id}`, payload);
         if (response) {
+          toast.success("Form updated successfully");
           router.push("/Abouts");
         }
       } else {
         const response = await adminPostApi("/api/v1/about", payload);
         if (response) {
+          toast.success("Form submitted successfully!");
           router.push("/Abouts");
         }
       }

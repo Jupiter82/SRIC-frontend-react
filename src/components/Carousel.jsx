@@ -78,14 +78,14 @@ export default function Carousel() {
       <Slider {...settings}>
         {data.map((item, index) => (
           <div className="relative" key={index}>
-            <div className="absolute z-10 bg-black/50 w-[100%] h-[100%]"></div>
+            <div className="absolute  bg-black/30 w-[100%] h-[100%]"></div>
 
             <Image
               src={process.env.NEXT_PUBLIC_IMAGE_URL + "/" + item.image}
               width={1000}
               height={1000}
               className="w-full h-[700px]"
-              alt="Carousel image 2"
+              alt="Carousel image"
             />
             <div className="absolute z-20 top-0 md:top-[25%] md:w-[25rem] md:h-[27rem] left-[11%] flex justify-center items-center">
               <div className="text-white left-4">

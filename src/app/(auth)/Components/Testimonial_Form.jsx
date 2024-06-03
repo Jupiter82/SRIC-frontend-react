@@ -10,6 +10,7 @@ import {
 } from "@/app/utils/httpUtils";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
+import { toast } from "react-toastify";
 
 export default function Slider_Form() {
   const [data, setdata] = useState();
@@ -59,11 +60,13 @@ export default function Slider_Form() {
           formData
         );
         if (response) {
+          toast.success(response.data.message);
           navigate.push("/Testimonial");
         }
       } else {
         const response = await adminPostApi("/api/v1/testimonial", formData);
         if (response) {
+          toast.success(response.data.message);
           navigate.push("/Testimonial");
         }
       }

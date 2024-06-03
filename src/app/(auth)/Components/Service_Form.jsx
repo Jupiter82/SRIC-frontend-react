@@ -10,6 +10,7 @@ import {
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import * as lucideIcons from "lucide-react";
+import { toast } from "react-toastify";
 
 export default function Service_Form() {
   const [data, setData] = useState();
@@ -68,16 +69,19 @@ export default function Service_Form() {
           formData
         );
         if (response) {
+          toast.success(response.data.message);
           navigate.push("/Service_admin");
         }
       } else {
         const response = await adminPostApi("/api/v1/service", formData);
         if (response) {
+          toast.success(response.data.message);
           navigate.push("/Service_admin");
         }
       }
     } catch (error) {
       console.error("Something is wrong:", error);
+      toast.error(error.message);
     }
   };
 

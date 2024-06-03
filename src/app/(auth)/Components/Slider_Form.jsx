@@ -10,6 +10,7 @@ import {
 } from "@/app/utils/httpUtils";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
+import { toast } from "react-toastify";
 
 export default function Slider_Form() {
   const [data, setdata] = useState();
@@ -42,7 +43,6 @@ export default function Slider_Form() {
         : formData.append("url", "https://" + data.url);
       formData.append("status", data.status);
 
-      // Only append image if it's a new image or if the image has changed
       if (
         data.image &&
         (!existingImage || data.image[0].name !== existingImage)
@@ -56,16 +56,19 @@ export default function Slider_Form() {
       if (id) {
         const response = await adminUpdateApi(`/api/v1/banner/${id}`, formData);
         if (response) {
+          toast.success("Slider Updated Successfully");
           navigate.push("/Slider");
         }
       } else {
         const response = await adminPostApi("/api/v1/banner", formData);
         if (response) {
+          toast.success("Slider Added Successfully");
           navigate.push("/Slider");
         }
       }
     } catch (error) {
       console.error("Something is wrong:", error);
+      toast.error("Slider Added Error Message : " + error.message);
     }
   };
 

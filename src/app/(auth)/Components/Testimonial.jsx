@@ -11,12 +11,17 @@ import {
   IconButton,
   Tooltip,
   Input,
+  Dialog,
+  DialogHeader,
+  DialogBody,
+  DialogFooter,
 } from "@material-tailwind/react";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import { FaChevronRight, FaHome, FaPlus } from "react-icons/fa";
 import { adminDeleteApi, adminFetchApi } from "@/app/utils/httpUtils";
 import { useRouter } from "next/navigation";
+import { toast } from "react-toastify";
 
 export default function Testimonial() {
   const [currentPage, setCurrentPage] = useState(1);
@@ -31,17 +36,24 @@ export default function Testimonial() {
     setShowDeleteModal(true);
   };
 
-  const deleteUserById = async (id) => {
-    //delte ko api with id
-    try {
-      const result = await adminDeleteApi("api/v1/testimonial", id);
-      if (result.status === 200) {
-        gettestimonialDetails();
+  const confirmDelete = async () => {
+    if (deleteId) {
+      try {
+        const result = await adminDeleteApi("api/v1/testimonial", deleteId);
+        if (result.status === 200) {
+          gettestimonialDetails();
+          toast.success("Testimonial deleted successfully");
+        }
+      } catch (error) {
+        console.log(error);
+        toast.error("Something went wrong");
+      } finally {
+        setShowDeleteModal(false);
+        setDeleteId(null);
       }
-    } catch (error) {
-      console.log(error);
     }
   };
+
   console.log(testimonialData, "test");
 
   const changePage = (pageNumber) => {
@@ -228,7 +240,7 @@ export default function Testimonial() {
                           <IconButton
                             variant="text"
                             onClick={() => {
-                              deleteUserById(_id);
+                              handleDeleteClick(_id);
                             }}
                           >
                             <TrashIcon className="h-4 w-4" />
@@ -272,6 +284,25 @@ export default function Testimonial() {
           </Button>
         </div>
       </Card>
+      <Dialog open={showDeleteModal} handler={setShowDeleteModal}>
+        <DialogHeader>Confirm Delete</DialogHeader>
+        <DialogBody divider>
+          Are you sure you want to delete this contact?
+        </DialogBody>
+        <DialogFooter>
+          <Button
+            variant="text"
+            color="red"
+            onClick={() => setShowDeleteModal(false)}
+            className="mr-2"
+          >
+            No
+          </Button>
+          <Button variant="gradient" color="green" onClick={confirmDelete}>
+            Yes
+          </Button>
+        </DialogFooter>
+      </Dialog>
     </>
   );
 }

@@ -7,16 +7,20 @@ import {
   Typography,
   Button,
   CardBody,
-  Avatar,
   IconButton,
   Tooltip,
   Input,
+  Dialog,
+  DialogHeader,
+  DialogBody,
+  DialogFooter,
 } from "@material-tailwind/react";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import { FaChevronRight, FaHome, FaPlus } from "react-icons/fa";
 import { adminDeleteApi, adminFetchApi } from "@/app/utils/httpUtils";
 import { useRouter } from "next/navigation";
+import { toast } from "react-toastify";
 
 export default function Contact_admin() {
   const [currentPage, setCurrentPage] = useState(1);
@@ -31,18 +35,23 @@ export default function Contact_admin() {
     setShowDeleteModal(true);
   };
 
-  const deleteUserById = async (id) => {
-    //delte ko api with id
-    try {
-      const result = await adminDeleteApi("api/v1/contactInfo", id);
-      if (result.status === 200) {
-        getSliderDetails();
+  const confirmDelete = async () => {
+    if (deleteId) {
+      try {
+        const result = await adminDeleteApi("api/v1/contactInfo", deleteId);
+        if (result.status === 200) {
+          getSliderDetails();
+          toast.success("Contact deleted successfully");
+        }
+      } catch (error) {
+        console.log(error);
+        toast.error("Failed to delete contact");
+      } finally {
+        setShowDeleteModal(false);
+        setDeleteId(null);
       }
-    } catch (error) {
-      console.log(error);
     }
   };
-  console.log(sliderData, "test");
 
   const changePage = (pageNumber) => {
     setCurrentPage(pageNumber);
@@ -66,13 +75,13 @@ export default function Contact_admin() {
   }, [currentPage]);
 
   const TABLE_HEAD = [
-    "Address Title	",
-    "Address Reference	",
+    "Address Title",
+    "Address Reference",
     "Address",
-    "Working Title	",
-    "Working Hour	",
-    "Hour Off	",
-    "Contact Title	",
+    "Working Title",
+    "Working Hour",
+    "Hour Off",
+    "Contact Title",
     "Phone",
     "Email",
     "Action",
@@ -162,7 +171,7 @@ export default function Contact_admin() {
                         >
                           {reference}
                         </Typography>
-                      </td>{" "}
+                      </td>
                       <td className={classes}>
                         <Typography
                           variant="small"
@@ -171,7 +180,7 @@ export default function Contact_admin() {
                         >
                           {address}
                         </Typography>
-                      </td>{" "}
+                      </td>
                       <td className={classes}>
                         <Typography
                           variant="small"
@@ -180,7 +189,7 @@ export default function Contact_admin() {
                         >
                           {workingTitle}
                         </Typography>
-                      </td>{" "}
+                      </td>
                       <td className={classes}>
                         <Typography
                           variant="small"
@@ -189,7 +198,7 @@ export default function Contact_admin() {
                         >
                           {hour}
                         </Typography>
-                      </td>{" "}
+                      </td>
                       <td className={classes}>
                         <Typography
                           variant="small"
@@ -198,7 +207,7 @@ export default function Contact_admin() {
                         >
                           {hourOff}
                         </Typography>
-                      </td>{" "}
+                      </td>
                       <td className={classes}>
                         <Typography
                           variant="small"
@@ -207,7 +216,7 @@ export default function Contact_admin() {
                         >
                           {contactTitle}
                         </Typography>
-                      </td>{" "}
+                      </td>
                       <td className={classes}>
                         <Typography
                           variant="small"
@@ -216,7 +225,7 @@ export default function Contact_admin() {
                         >
                           {phone}
                         </Typography>
-                      </td>{" "}
+                      </td>
                       <td className={classes}>
                         <Typography
                           variant="small"
@@ -237,12 +246,10 @@ export default function Contact_admin() {
                             <PencilIcon className="h-4 w-4" />
                           </IconButton>
                         </Tooltip>
-                        <Tooltip content="Delete Conract">
+                        <Tooltip content="Delete Contact">
                           <IconButton
                             variant="text"
-                            onClick={() => {
-                              deleteUserById(_id);
-                            }}
+                            onClick={() => handleDeleteClick(_id)}
                           >
                             <TrashIcon className="h-4 w-4" />
                           </IconButton>
@@ -272,7 +279,7 @@ export default function Contact_admin() {
               value={currentPage}
               onChange={(e) => setCurrentPage(e.target.value)}
             />
-            <Typography variant="small">of 10</Typography>
+            <Typography variant="small">of {totalPages}</Typography>
           </div>
           <Button
             variant="text"
@@ -285,6 +292,26 @@ export default function Contact_admin() {
           </Button>
         </div>
       </Card>
+
+      <Dialog open={showDeleteModal} handler={setShowDeleteModal}>
+        <DialogHeader>Confirm Delete</DialogHeader>
+        <DialogBody divider>
+          Are you sure you want to delete this contact?
+        </DialogBody>
+        <DialogFooter>
+          <Button
+            variant="text"
+            color="red"
+            onClick={() => setShowDeleteModal(false)}
+            className="mr-2"
+          >
+            No
+          </Button>
+          <Button variant="gradient" color="green" onClick={confirmDelete}>
+            Yes
+          </Button>
+        </DialogFooter>
+      </Dialog>
     </>
   );
 }

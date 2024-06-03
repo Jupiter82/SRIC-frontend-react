@@ -10,13 +10,14 @@ import {
   Avatar,
   IconButton,
   Tooltip,
-  Input,
 } from "@material-tailwind/react";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import { FaChevronRight, FaHome, FaPlus } from "react-icons/fa";
 import { adminDeleteApi, adminFetchApi } from "@/app/utils/httpUtils";
 import { useRouter } from "next/navigation";
+import { toast } from "react-toastify";
+import { Dialog } from "@material-tailwind/react";
 
 export default function Logo() {
   const [currentPage, setCurrentPage] = useState(1);
@@ -31,18 +32,20 @@ export default function Logo() {
     setShowDeleteModal(true);
   };
 
-  const deleteUserById = async (id) => {
-    //delte ko api with id
+  const deleteUserById = async () => {
     try {
-      const result = await adminDeleteApi("api/v1/logo", id);
+      const result = await adminDeleteApi("api/v1/logo", deleteId);
       if (result.status === 200) {
         getLogoDetails();
+        toast.success("Deleted successfully!");
       }
     } catch (error) {
-      console.log(error);
+      console.error(error);
+      toast.error("Failed to delete!");
+    } finally {
+      setShowDeleteModal(false);
     }
   };
-  console.log(LogoData, "test");
 
   const changePage = (pageNumber) => {
     setCurrentPage(pageNumber);
@@ -83,7 +86,7 @@ export default function Logo() {
       </div>
 
       <Link href={"/Logo_Form"}>
-        <button className="text-white flex text-xl bg-green-400 rounded-md p-4 mx-4">
+        <button className="text-white flex text-xl bg-green-400 rounded-md p-4 mx-4 ">
           <FaPlus className="mx-2 text-3xl" />
           Add New Logo
         </button>
@@ -161,7 +164,7 @@ export default function Logo() {
                         <IconButton
                           variant="text"
                           onClick={() => {
-                            deleteUserById(_id);
+                            handleDeleteClick(_id);
                           }}
                         >
                           <TrashIcon className="h-4 w-4" />
@@ -175,6 +178,23 @@ export default function Logo() {
           </table>
         </CardBody>
       </Card>
+
+      <Dialog open={showDeleteModal} handler={setShowDeleteModal}>
+        <Dialog.Header>Confirm Delete</Dialog.Header>
+        <Dialog.Body>Are you sure you want to delete this logo?</Dialog.Body>
+        <Dialog.Footer>
+          <Button
+            variant="text"
+            color="red"
+            onClick={() => setShowDeleteModal(false)}
+          >
+            Cancel
+          </Button>
+          <Button variant="gradient" color="green" onClick={deleteUserById}>
+            Yes, Delete
+          </Button>
+        </Dialog.Footer>
+      </Dialog>
     </>
   );
 }

@@ -7,16 +7,21 @@ import {
   Typography,
   Button,
   CardBody,
-  Avatar,
   IconButton,
   Tooltip,
   Input,
+  Dialog,
+  DialogHeader,
+  DialogBody,
+  DialogFooter,
+  Avatar,
 } from "@material-tailwind/react";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import { FaChevronRight, FaHome, FaPlus } from "react-icons/fa";
 import { adminDeleteApi, adminFetchApi } from "@/app/utils/httpUtils";
 import { useRouter } from "next/navigation";
+import { toast } from "react-toastify";
 
 export default function Slider() {
   const [currentPage, setCurrentPage] = useState(1);
@@ -32,15 +37,21 @@ export default function Slider() {
     setShowDeleteModal(true);
   };
 
-  const deleteUserById = async (id) => {
-    //delte ko api with id
-    try {
-      const result = await adminDeleteApi("api/v1/banner", id);
-      if (result.status === 200) {
-        getSliderDetails();
+  const confirmDelete = async () => {
+    if (deleteId) {
+      try {
+        const result = await adminDeleteApi("api/v1/banner", deleteId);
+        if (result.status === 200) {
+          getSliderDetails();
+          toast.success("Slider Deleted Successfully");
+        }
+      } catch (error) {
+        toast.error("Error deleting Slider");
+        console.log(error);
+      } finally {
+        setShowDeleteModal(false);
+        setDeleteId(null);
       }
-    } catch (error) {
-      console.log(error);
     }
   };
   console.log(sliderData, "test");
@@ -200,7 +211,7 @@ export default function Slider() {
                           <IconButton
                             variant="text"
                             onClick={() => {
-                              deleteUserById(_id);
+                              handleDeleteClick(_id);
                             }}
                           >
                             <TrashIcon className="h-4 w-4" />
@@ -244,6 +255,25 @@ export default function Slider() {
           </Button>
         </div>
       </Card>
+      <Dialog open={showDeleteModal} handler={setShowDeleteModal}>
+        <DialogHeader>Confirm Delete</DialogHeader>
+        <DialogBody divider>
+          Are you sure you want to delete this contact?
+        </DialogBody>
+        <DialogFooter>
+          <Button
+            variant="text"
+            color="red"
+            onClick={() => setShowDeleteModal(false)}
+            className="mr-2"
+          >
+            No
+          </Button>
+          <Button variant="gradient" color="green" onClick={confirmDelete}>
+            Yes
+          </Button>
+        </DialogFooter>
+      </Dialog>
     </>
   );
 }

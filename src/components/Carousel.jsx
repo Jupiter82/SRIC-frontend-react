@@ -4,6 +4,7 @@ import Slider from "react-slick";
 import Image from "next/image";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import { userFetchApi } from "@/app/utils/httpUtils";
+import Link from "next/link";
 
 function SampleNextArrow(props) {
   const { className, style, onClick } = props;
@@ -97,10 +98,10 @@ export default function Carousel() {
                 </h1>
                 <p className="text-sm">{item.description}</p>
                 <button className="sm:py-0 sm:m-1 bg-blue-500 hover:bg-blue-700 text-white font-bold md:py-2 md:m-2 px-4 mr-4">
-                  Read More
+                  <Link href="/">Read More</Link>
                 </button>
                 <button className="sm:py-0 sm:m-1 bg-white hover:bg-blue-700 text-black font-bold md:py-2 md:m-2 px-4">
-                  Join
+                  <Link href="/">Join</Link>
                 </button>
               </div>
             </div>

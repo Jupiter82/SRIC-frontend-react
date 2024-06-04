@@ -1,4 +1,5 @@
 "use client";
+import { userFetchApi } from "@/app/utils/httpUtils";
 import Link from "next/link";
 import { useParams, usePathname, useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
@@ -7,6 +8,24 @@ import { IoMenu } from "react-icons/io5";
 export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const [data, setData] = useState([]);
+
+  const getLogo = async () => {
+    try {
+      const response = await userFetchApi("api/v1/logo/home");
+      console.log(response);
+      if (response.status === 200) {
+        setData(response.data.result);
+      }
+      console.log(response);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    getLogo();
+  }, []);
 
   const toggleMenu = () => {
     setIsMenuOpen((prevState) => !prevState);
@@ -29,11 +48,22 @@ export default function Navbar() {
 
   return (
     <div className="z-50 sticky top-0 backdrop-blur">
-      <nav className="flex justify-between items-center   px-8 shadow-md bg-slate-100 text-black">
-        <div className={` flex items-center  ${isScrolled ? "py-2" : "py-6"}`}>
+      <nav className="flex justify-around items-center  px-8 shadow-md bg-slate-100 text-black">
+        <div
+          className={` flex items-center  ${isScrolled ? "py-2 w-12" : "py-6"}`}
+        >
           <Link href={"/"}>
-            {/* <img src="" alt="Logo" className="h-8" /> */}
-            <h1 className="ml-2">SRIC</h1>
+            {/* <img src="" alt="Logo" className="h-8" />
+            <h1 className="ml-2">SRIC</h1> */}
+            {data?.map((item, index) => {
+              return (
+                <img
+                  src={process.env.NEXT_PUBLIC_IMAGE_URL + "/" + item.image}
+                  alt="SRIC"
+                  key={index}
+                />
+              );
+            })}
           </Link>
         </div>
 

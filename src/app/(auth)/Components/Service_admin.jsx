@@ -77,7 +77,14 @@ export default function Service_admin() {
     getSliderDetails(currentPage);
   }, [currentPage]);
 
-  const TABLE_HEAD = ["Image", "Icon", "Title", "Description", "Action"];
+  const TABLE_HEAD = [
+    "Image",
+    "Icon",
+    "Title",
+    "Description",
+    "Status",
+    "Action",
+  ];
 
   return (
     <>
@@ -124,7 +131,7 @@ export default function Service_admin() {
             </thead>
             <tbody>
               {sliderData.map(
-                ({ description, image, title, icon, _id }, index) => {
+                ({ description, image, title, icon, status, _id }, index) => {
                   const isLast = index === sliderData.length - 1;
                   const classes = isLast
                     ? "p-4"
@@ -176,7 +183,18 @@ export default function Service_admin() {
                           color="blue-gray"
                           className="font-normal"
                         >
-                          {description}
+                          {description.length > 25
+                            ? `${description.substring(0, 25)}...`
+                            : description}
+                        </Typography>
+                      </td>
+                      <td className={classes}>
+                        <Typography
+                          variant="small"
+                          color="blue-gray"
+                          className="font-normal"
+                        >
+                          {status}
                         </Typography>
                       </td>
                       <td className={classes}>

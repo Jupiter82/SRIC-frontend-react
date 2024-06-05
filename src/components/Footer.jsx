@@ -1,93 +1,92 @@
 "use client";
 import { userFetchApi } from "@/app/utils/httpUtils";
 import { useEffect, useState } from "react";
+import { Clock, Mail, MapPin, PhoneCall } from "lucide-react";
 
 const Footer = () => {
-const [data,setData] = useState([]);
+  const [data, setData] = useState([]);
+  const [serdata, setSerData] = useState([]);
+  const [isLoading, setIsLoading] = useState(false); // Add state for loading indicator
 
-   const getContactInfo = async () => {
+  const getContactInfo = async () => {
+    setIsLoading(true); // Set loading indicator to true before fetching data
     try {
       const response = await userFetchApi("api/v1/contactInfo/home");
-      if(response.status === 200){
+      if (response.status === 200) {
         setData(response.data.result);
+      } else {
+        console.error("Error fetching contact info:", response.statusText);
       }
     } catch (error) {
-      console.log(error)
+      console.error("Error fetching contact info:", error);
+    } finally {
+      setIsLoading(false); // Set loading indicator to false after fetching data
     }
-   }
-   console.log(data);
-   useEffect(() => {
+  };
+
+  const getServiceInfo = async () => {
+    setIsLoading(true); // Set loading indicator to true before fetching data
+    try {
+      const response = await userFetchApi("api/v1/service/home");
+      if (response.status === 200) {
+        setSerData(response.data.result);
+      } else {
+        console.error("Error fetching service info:", response.statusText);
+      }
+    } catch (error) {
+      console.error("Error fetching service info:", error);
+    } finally {
+      setIsLoading(false); // Set loading indicator to false after fetching data
+    }
+  };
+
+  useEffect(() => {
     getContactInfo();
-   },[])
+    getServiceInfo();
+  }, []);
+
   return (
-    <footer className="bg-gray-800 text-white py-20 sm:mx-2 mt-4">
-      <div className=" px-4 ">
-        <div className="md:grid md:grid-cols-4 gap-4   flex justify-start flex-col ">
-          {data?.map((item,index)=>{
-            return(
-              <div className="flex flex-col md:justify-center md:items-center"key={index}>
-              <h2 className="text-lg font-semibold mb-2">Company</h2>
-              <ul className="md:ml-14">
-                <li>{item?.address}</li>
-                <li>{item?.addressTitle}</li>
-                <li>{item?.workingTitle}</li>
-                <li>{item?.contactTitle}</li>
-              </ul>
-            </div>
-            )
-          })}
-          {/* <div className="flex flex-col md:justify-center md:items-center">
-            <h2 className="text-lg font-semibold mb-2">Company</h2>
-            <ul className="md:ml-14">
-              <li>About Us</li>
-              <li>Contact Us</li>
-              <li>Privacy Policy</li>
-              <li>Terms & Condition</li>
-            </ul>
-          </div>
-          <div className="flex flex-col  md:justify-center md:items-center">
-            <h2 className="text-lg font-semibold md:-ml-20 mb-2">Services</h2>
-            <ul className="md:mx-6">
-              <li>Web Development</li>
-              <li>Mobile Development</li>
-              <li>UI/UX Design</li>
-            </ul>
-          </div>
-          <div className="flex flex-col md:justify-center md:items-center">
-            <h2 className="text-lg font-semibold mb-2">Social Media</h2>
-            <ul>
-              <li className="flex">
-                <FaXTwitter className="text-white text-xl mx-2" />
-                Twitter
-              </li>
-              <li className="flex">
-                <FaSquareFacebook className="text-white text-xl mx-2" />
-                Facebook
-              </li>
-              <li className="flex">
-                <FaInstagram className="text-white text-xl mx-2" />
-                Instagram
-              </li>
-            </ul>
-          </div>
-          <div className="flex  flex-col md:justify-center md:items-center">
-            <h2 className="text-lg font-semibold mb-2 -ml-40 ">Contact</h2>
-            <ul>
-              <li className="flex">
-                <FaLocationDot className="text-white text-xl mx-2" />
-                Mid Baneshwor
-              </li>
-              <li className="flex">
-                <FaPhoneAlt className="text-white text-xl mx-2" />
-                01-4435890
-              </li>
-              <li className="flex">
-                <MdEmail className="text-white text-xl mx-2" />
-                info@softechfoundation.com
-              </li>
-            </ul>
-          </div> */}
+    <footer className="relative bg-black text-white py-20 sm:mx-2 mt-4 flex flex-col sm:flex-row gap-2">
+      <div
+        className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-30"
+        style={{ backgroundImage: "url('/images/foter.gif')" }}
+      ></div>
+      <div className="relative px-4  flex flex-col md:grid md:grid-cols-4 gap-4">
+        <div className="flex flex-col  items-center ">
+          <h1 className="text-3xl text-white inline-block px-2 border-b-2 border-gradient">
+            Service
+          </h1>
+          <ul className="md:ml-14 flex flex-col gap-2 pt-2">
+            {serdata?.map((item, index) => (
+              <li key={index}>{item?.title}</li>
+            ))}
+          </ul>
         </div>
+        {data?.map((item, index) => (
+          <div
+            className="flex flex-col  justify-center items-center "
+            key={index}
+          >
+            <h1 className="text-3xl text-white inline-block px-2 border-b-2 border-gradient">
+              Contact Info
+            </h1>
+            <ul className="md:ml-14 flex flex-col gap-2 pt-2">
+              <li className="flex gap-4">
+                <MapPin /> {item?.reference}
+              </li>
+              <li>{item?.address}</li>
+              <li className="flex gap-4">
+                <Mail /> {item?.email}
+              </li>
+              <li className="flex gap-4">
+                <PhoneCall /> {item?.phone}
+              </li>
+              <li className="flex gap-4">
+                <Clock /> {item?.hour}
+              </li>
+            </ul>
+          </div>
+        ))}
       </div>
     </footer>
   );

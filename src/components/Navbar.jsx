@@ -10,6 +10,15 @@ export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [data, setData] = useState([]);
 
+  const links = [
+    { href: "/", text: "Home" },
+    { href: "/About", text: "About" },
+    { href: "/CaseStudy", text: "Case Study" },
+    { href: "/Services", text: "Services" },
+    { href: "/Program", text: "Program" },
+    { href: "/GetInvolved", text: "Get Involved" },
+  ];
+
   const getLogo = async () => {
     try {
       const response = await userFetchApi("api/v1/logo/home");
@@ -69,7 +78,7 @@ export default function Navbar() {
 
         <IoMenu className="text-2xl sm:hidden" onClick={toggleMenu} />
 
-        <div className="hidden gap-6 sm:flex ">
+        {/* <div className="hidden gap-6 sm:flex ">
           <Link href="/">
             {pathname === "/" ? (
               <text className="uppercase text-red-500 font-bold">Home</text>
@@ -117,57 +126,83 @@ export default function Navbar() {
               <text className="uppercase  ">Get Involved</text>
             )}
           </Link>
+        </div> */}
+        <div className="hidden gap-6 sm:flex ">
+          {links.map((link) => (
+            <Link href={link.href} key={link.href}>
+              {pathname === link.href ? (
+                <text className="uppercase text-blue-500 font-bold">
+                  {link.text}
+                </text>
+              ) : (
+                <text className="uppercase">{link.text}</text>
+              )}
+            </Link>
+          ))}
         </div>
       </nav>
       {/* Dropdown menu */}
       {isMenuOpen && (
-        <div className="sm:hidden z-50 top-16 right-6 flex flex-col mx-2 bg-white shadow-md  mt-2">
-          <Link href="/">
-            {pathname === "/" ? (
-              <text className="uppercase text-red-500 font-bold">Home</text>
-            ) : (
-              <text className="uppercase  ">Home</text>
-            )}
-          </Link>
-          <Link href="/About">
-            {pathname === "/About" ? (
-              <text className="uppercase text-red-500 font-bold">About</text>
-            ) : (
-              <text className="uppercase  ">About</text>
-            )}
-          </Link>
-          <Link href="/CaseStudy">
-            {pathname === "/CaseStudy" ? (
-              <text className="uppercase text-red-500 font-bold">
-                Case Study
-              </text>
-            ) : (
-              <text className="uppercase  ">case study</text>
-            )}
-          </Link>
-          <Link href="/Services">
-            {pathname === "/Services" ? (
-              <text className="uppercase text-red-500 font-bold">service</text>
-            ) : (
-              <text className="uppercase  ">service</text>
-            )}
-          </Link>
-          <Link href="/Program">
-            {pathname === "/Program" ? (
-              <text className="uppercase text-red-500 font-bold">program</text>
-            ) : (
-              <text className="uppercase  ">program</text>
-            )}
-          </Link>
-          <Link href="/GetInvolved">
-            {pathname === "/GetInvolved" ? (
-              <text className="uppercase text-red-500 font-bold">
-                Get Involved
-              </text>
-            ) : (
-              <text className="uppercase  ">Get Involved</text>
-            )}
-          </Link>
+        // <div className="sm:hidden z-50 top-16 right-6 flex flex-col mx-2 bg-white shadow-md  mt-2">
+        //   <Link href="/">
+        //     {pathname === "/" ? (
+        //       <text className="uppercase text-red-500 font-bold">Home</text>
+        //     ) : (
+        //       <text className="uppercase  ">Home</text>
+        //     )}
+        //   </Link>
+        //   <Link href="/About">
+        //     {pathname === "/About" ? (
+        //       <text className="uppercase text-red-500 font-bold">About</text>
+        //     ) : (
+        //       <text className="uppercase  ">About</text>
+        //     )}
+        //   </Link>
+        //   <Link href="/CaseStudy">
+        //     {pathname === "/CaseStudy" ? (
+        //       <text className="uppercase text-red-500 font-bold">
+        //         Case Study
+        //       </text>
+        //     ) : (
+        //       <text className="uppercase  ">case study</text>
+        //     )}
+        //   </Link>
+        //   <Link href="/Services">
+        //     {pathname === "/Services" ? (
+        //       <text className="uppercase text-red-500 font-bold">service</text>
+        //     ) : (
+        //       <text className="uppercase  ">service</text>
+        //     )}
+        //   </Link>
+        //   <Link href="/Program">
+        //     {pathname === "/Program" ? (
+        //       <text className="uppercase text-red-500 font-bold">program</text>
+        //     ) : (
+        //       <text className="uppercase  ">program</text>
+        //     )}
+        //   </Link>
+        //   <Link href="/GetInvolved">
+        //     {pathname === "/GetInvolved" ? (
+        //       <text className="uppercase text-red-500 font-bold">
+        //         Get Involved
+        //       </text>
+        //     ) : (
+        //       <text className="uppercase  ">Get Involved</text>
+        //     )}
+        //   </Link>
+        // </div>
+        <div className="sm:hidden z-50 top-16 right-6 flex flex-col mx-2 bg-white shadow-md mt-2">
+          {links.map((link) => (
+            <Link href={link.href} key={link.href}>
+              {pathname === link.href ? (
+                <text className="uppercase text-blue-500 font-bold">
+                  {link.text}
+                </text>
+              ) : (
+                <text className="uppercase">{link.text}</text>
+              )}
+            </Link>
+          ))}
         </div>
       )}
     </div>

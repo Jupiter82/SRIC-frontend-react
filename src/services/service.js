@@ -6,4 +6,3 @@ export const imgUrl = "http://localhost:3000/images";
 
 //     getBanner : `${baseUrl}/banner`
 // }
-

@@ -9,6 +9,7 @@ const LoginPage = () => {
   const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [rememberMe, setRememberMe] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -20,6 +21,11 @@ const LoginPage = () => {
       localStorage.setItem("token", response.data.result.token);
       router.push("/profile");
       toast.success("Login successful!");
+      if (rememberMe) {
+        localStorage.setItem("email", email);
+      } else {
+        localStorage.removeItem("email");
+      }
     } catch (error) {
       console.error("Something is wrong", error);
       toast.error("Login failed. Please try again.");
@@ -29,6 +35,11 @@ const LoginPage = () => {
     const token = localStorage.getItem("token");
     if (token) {
       router.push("/profile");
+    }
+
+    const rememberedEmail = localStorage.getItem("email");
+    if (rememberedEmail) {
+      setEmail(rememberedEmail);
     }
   }, [router]);
 
@@ -83,6 +94,8 @@ const LoginPage = () => {
                   id="remember-me"
                   name="remember-me"
                   type="checkbox"
+                  checked={rememberMe}
+                  onChange={(e) => setRememberMe(e.target.checked)}
                   className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
                 />
                 <label
@@ -108,9 +121,7 @@ const LoginPage = () => {
                 type="submit"
                 className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
               >
-                <span className="absolute left-0 inset-y-0 flex items-center pl-3">
-                  {/* Heroicon name: lock-closed */}
-                </span>
+                <span className="absolute left-0 inset-y-0 flex items-center pl-3"></span>
                 Login
               </button>
             </div>

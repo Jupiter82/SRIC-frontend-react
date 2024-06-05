@@ -30,6 +30,7 @@ export default function Service_Form() {
       title: "",
       description: "",
       icon: "",
+      status: "",
     },
   });
 
@@ -46,6 +47,7 @@ export default function Service_Form() {
         icon: data?.icon,
         title: data?.title,
         description: data?.description,
+        status: data?.status,
       });
       setIconName(data?.icon);
     }
@@ -61,6 +63,7 @@ export default function Service_Form() {
       }
 
       formData.append("description", data.description);
+      formData.append("status", data.status);
       formData.append("icon", data.icon);
 
       if (id) {
@@ -203,6 +206,19 @@ export default function Service_Form() {
             />
             {errors.description && (
               <p className="text-red-200">{errors.description.message}</p>
+            )}
+          </div>
+          <div>
+            <h1>Status:</h1>
+            <select
+              className="w-full border-2 my-2"
+              {...register("status", { required: "status is required" })}
+            >
+              <option value="active">Active</option>
+              <option value="inactive">Inactive</option>
+            </select>
+            {errors["status"] && (
+              <p className="text-red-200">{errors["status"].message}</p>
             )}
           </div>
         </div>

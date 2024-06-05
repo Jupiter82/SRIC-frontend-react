@@ -42,7 +42,7 @@ const Service = () => {
           return (
             <div
               key={index}
-              className="relative overflow-hidden rounded-lg border bg-white select-none hover:shadow-md hover:bg-blue-300 transition ease-in-out delay-100 hover:shadow-gray-600 p-2 "
+              className="relative overflow-hidden rounded-lg border bg-white select-none hover:shadow-md hover:bg-blue-300  transition ease-in-out delay-100 hover:shadow-gray-600 p-2 "
             >
               <div className="flex h-[180px] flex-col justify-between rounded-md p-6">
                 <div className="mr-4  p-2">
@@ -52,7 +52,7 @@ const Service = () => {
                     <p>Icon not found</p>
                   )}
                 </div>
-                <div className="space-y-2">
+                <div className="space-y-2 ">
                   <h3 className="font-bold">{item.title}</h3>
                   <p className="text-sm">{item.description.slice(0, 120)}</p>
                 </div>

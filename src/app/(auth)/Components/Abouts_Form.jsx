@@ -1,6 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
+import { useForm, useFieldArray } from "react-hook-form";
 import { FaChevronRight, FaHome } from "react-icons/fa";
 import {
   adminFetchApi,
@@ -22,6 +22,7 @@ export default function Abouts_Form() {
     register,
     handleSubmit,
     reset,
+    control,
     formState: { errors, isSubmitting },
   } = useForm({
     defaultValues: {
@@ -32,45 +33,39 @@ export default function Abouts_Form() {
     },
   });
 
-  const [skill, setskill] = useState([{ title: "" }]);
+  const { fields, append, remove } = useFieldArray({
+    control,
+    name: "skill",
+  });
 
   const addSkill = () => {
-    setskill([...skill, { title: "" }]);
+    append({ title: "" });
   };
 
-  const removeSkill = (index) => {
-    const newskill = skill.filter((_, i) => i !== index);
-    setskill(newskill);
-  };
-
-  const onSubmit = async (formData) => {
+  const onSubmit = async (data) => {
     try {
-      const payload = new FormData();
-      payload.append("title", formData.title);
+      const formData = new FormData();
+      formData.append("title", data.title);
 
-      if (
-        formData.image &&
-        formData.image[0] &&
-        (!existingImage || formData.image[0].name !== existingImage)
-      ) {
-        payload.append("image", formData.image[0]);
+      if (data.image) {
+        formData.append("image", data.image[0]);
       }
 
-      payload.append("subTitle", formData.subTitle);
-      payload.append("description", formData.description);
-      const skillArray = formData.skill.map((skill) => ({
+      formData.append("subTitle", data.subTitle);
+      formData.append("description", data.description);
+      const skillArray = data.skill.map((skill) => ({
         title: skill.title,
       }));
-      payload.append("skill", JSON.stringify(skillArray));
+      formData.append("skill", JSON.stringify(skillArray));
 
       if (id) {
-        const response = await adminUpdateApi(`/api/v1/about/${id}`, payload);
+        const response = await adminUpdateApi(`/api/v1/about/${id}`, formData);
         if (response) {
           toast.success("Form updated successfully");
           router.push("/Abouts");
         }
       } else {
-        const response = await adminPostApi("/api/v1/about", payload);
+        const response = await adminPostApi("/api/v1/about", formData);
         if (response) {
           toast.success("Form submitted successfully!");
           router.push("/Abouts");
@@ -86,10 +81,14 @@ export default function Abouts_Form() {
       const result = await adminFetchApi(`api/v1/about/${id}`);
       if (result.status === 200) {
         setData(result.data.result);
+
         if (result.data.result.image) {
-          const imageUrl = `${process.env.NEXT_PUBLIC_IMAGE_URL}/${result.data.result.image}`;
-          setImagePreview(imageUrl);
-          setExistingImage(imageUrl);
+          setImagePreview(
+            `${process.env.NEXT_PUBLIC_IMAGE_URL}/${result.data.result.image}`
+          );
+          setExistingImage(
+            `${process.env.NEXT_PUBLIC_IMAGE_URL}/${result.data.result.image}`
+          );
         }
       }
     } catch (error) {
@@ -107,12 +106,11 @@ export default function Abouts_Form() {
     if (data) {
       reset({
         image: "",
-        title: data.title,
-        subTitle: data.subTitle,
-        description: data.description,
-        skill: data.skill || [{ title: "" }],
+        title: data?.title,
+        subTitle: data?.subTitle,
+        description: data?.description,
+        skill: data?.skill || [{ title: "" }],
       });
-      setskill(data.skill || [{ title: "" }]);
     }
   }, [data, reset]);
 
@@ -135,34 +133,33 @@ export default function Abouts_Form() {
       </div>
       <form className="py-4" onSubmit={handleSubmit(onSubmit)}>
         <div className="w-full">
-          <div>
-            <h1>Choose About Image:</h1>
-            <input
-              type="file"
-              accept="image/*"
-              className="w-full border-2 my-2"
-              {...register("image", {
-                required: !existingImage && "Image is required",
-              })}
-              onChange={(e) => {
-                if (e.target.files[0]) {
-                  setImagePreview(URL.createObjectURL(e.target.files[0]));
-                }
-              }}
-            />
-            {errors.image && (
-              <p className="text-red-200">{errors.image.message}</p>
-            )}
-            {imagePreview && (
-              <div className="my-2">
-                <img
-                  src={imagePreview}
-                  alt="Image Preview"
-                  className="w-32 h-32 object-cover"
-                />
-              </div>
-            )}
-          </div>
+          <h1>Choose About Image:</h1>
+          <input
+            type="file"
+            accept="image/*"
+            className="w-full border-2 my-2"
+            {...register("image", {
+              required: existingImage ? false : "Image is required",
+            })}
+            onChange={(e) => {
+              if (e.target.files[0]) {
+                setImagePreview(URL.createObjectURL(e.target.files[0]));
+              }
+            }}
+          />
+          {errors["image"] && (
+            <p className="text-red-200">{errors["image"].message}</p>
+          )}
+          {imagePreview && (
+            <div className="my-2">
+              <img
+                src={imagePreview}
+                alt="Image Preview"
+                className="w-32 h-32 object-cover"
+              />
+            </div>
+          )}
+
           <div>
             <h1>About Title:</h1>
             <input
@@ -196,9 +193,9 @@ export default function Abouts_Form() {
             )}
           </div>
           <div>
-            <h1>About skill:</h1>
-            {skill.map((skill, index) => (
-              <div key={index} className="mb-4">
+            <h1>About Skill:</h1>
+            {fields.map((field, index) => (
+              <div key={field.id} className="mb-4">
                 <div>
                   <input
                     type="text"
@@ -214,9 +211,9 @@ export default function Abouts_Form() {
                     </p>
                   )}
                 </div>
-                {skill.length > 1 && (
-                  <button type="button" onClick={() => removeSkill(index)}>
-                    Remove
+                {fields.length > 1 && (
+                  <button type="button" onClick={() => remove(index)}>
+                    Remove Skill
                   </button>
                 )}
               </div>

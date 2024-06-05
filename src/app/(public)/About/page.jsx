@@ -10,9 +10,7 @@ export default function AboutPage() {
     <>
       <div className=" ">
         <div className=" relative overflow-hidden">
-          <div className="absolute z-10 bg-black/50 w-[100%] h-[100%]">
-      
-          </div>
+          <div className="absolute z-10 bg-black/50 w-[100%] h-[100%]"></div>
           <Image
             src="/images/banner0.jpg"
             width={1000}

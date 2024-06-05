@@ -61,9 +61,7 @@ export default function Abouts() {
 
   const getSliderDetails = async (pageNumber) => {
     try {
-      const response = await adminFetchApi(
-        `/api/v1/about?page=${pageNumber}&limit=10`
-      );
+      const response = await adminFetchApi(`/api/v1/about/home`);
       const fetchedData = response.data;
       setSliderData(fetchedData.result);
       setTotalPages(fetchedData.totalPages);
@@ -90,7 +88,7 @@ export default function Abouts() {
       <div className="flex row gap-2 mx-4 my-4 text-blue-500">
         <Link href={"/profile"}>
           <h1 className="flex gap-2">
-            <FaHome className="text-xl" /> Home{" "}
+            <FaHome className="text-xl" /> Home
             <FaChevronRight className="my-1" />
           </h1>
         </Link>
@@ -182,7 +180,9 @@ export default function Abouts() {
                           color="blue-gray"
                           className="font-normal"
                         >
-                          {description}
+                          {description.length > 25
+                            ? `${description.substring(0, 25)}...`
+                            : description}
                         </Typography>
                       </td>
                       <td className={classes}>

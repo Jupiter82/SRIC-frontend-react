@@ -57,7 +57,7 @@ export default function Navbar() {
 
   return (
     <div className="z-50 sticky top-0 backdrop-blur">
-      <nav className="flex justify-around items-center  px-8 shadow-md bg-slate-100 text-black">
+      <nav className="flex justify-around items-center text-blue-500 px-8 shadow-md bg-slate-100 text-black">
         <div
           className={` flex items-center  ${isScrolled ? "py-2 w-12" : "py-6"}`}
         >
@@ -131,7 +131,7 @@ export default function Navbar() {
           {links.map((link) => (
             <Link href={link.href} key={link.href}>
               {pathname === link.href ? (
-                <text className="uppercase text-blue-500 font-bold">
+                <text className="uppercase text-black font-bold">
                   {link.text}
                 </text>
               ) : (
@@ -191,11 +191,11 @@ export default function Navbar() {
         //     )}
         //   </Link>
         // </div>
-        <div className="sm:hidden z-50 top-16 right-6 flex flex-col mx-2 bg-white shadow-md mt-2">
+        <div className="sm:hidden z-50 top-16 right-6 flex text-blue-500 flex-col mx-2 bg-white shadow-md mt-2">
           {links.map((link) => (
             <Link href={link.href} key={link.href}>
               {pathname === link.href ? (
-                <text className="uppercase text-blue-500 font-bold">
+                <text className="uppercase text-black font-bold">
                   {link.text}
                 </text>
               ) : (

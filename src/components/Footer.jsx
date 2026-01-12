@@ -1,39 +1,41 @@
 "use client";
 import { userFetchApi } from "@/app/utils/httpUtils";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 const Footer = () => {
-const [data,setData] = useState([]);
+  const [data, setData] = useState([]);
 
-   const getContactInfo = async () => {
+  const getContactInfo = async () => {
     try {
       const response = await userFetchApi("api/v1/contactInfo/home");
-      if(response.status === 200){
+      if (response.status === 200) {
         setData(response.data.result);
       }
     } catch (error) {
       console.log(error)
     }
-   }
-   console.log(data);
-   useEffect(() => {
+  }
+  console.log(data);
+  useEffect(() => {
     getContactInfo();
-   },[])
+  }, [])
+  const router = useRouter();
   return (
     <footer className="bg-gray-800 text-white py-20 sm:mx-2 mt-4">
       <div className=" px-4 ">
         <div className="md:grid md:grid-cols-4 gap-4   flex justify-start flex-col ">
-          {data?.map((item,index)=>{
-            return(
-              <div className="flex flex-col md:justify-center md:items-center"key={index}>
-              <h2 className="text-lg font-semibold mb-2">Company</h2>
-              <ul className="md:ml-14">
-                <li>{item?.address}</li>
-                <li>{item?.addressTitle}</li>
-                <li>{item?.workingTitle}</li>
-                <li>{item?.contactTitle}</li>
-              </ul>
-            </div>
+          {data?.map((item, index) => {
+            return (
+              <div className="flex flex-col md:justify-center md:items-center" key={index}>
+                <h2 className="text-lg font-semibold mb-2">Company</h2>
+                <ul className="md:ml-14">
+                  <li>{item?.address}</li>
+                  <li>{item?.addressTitle}</li>
+                  <li>{item?.workingTitle}</li>
+                  <li>{item?.contactTitle}</li>
+                </ul>
+              </div>
             )
           })}
           {/* <div className="flex flex-col md:justify-center md:items-center">
@@ -87,7 +89,15 @@ const [data,setData] = useState([]);
               </li>
             </ul>
           </div> */}
+          <div>
+            <button onClick={() => router.push("/login")} class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+              Login
+            </button>
+          </div>
+
         </div>
+
+
       </div>
     </footer>
   );

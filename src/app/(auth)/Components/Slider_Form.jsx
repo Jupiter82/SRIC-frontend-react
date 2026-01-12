@@ -9,7 +9,7 @@ import {
   adminUpdateApi,
 } from "@/app/utils/httpUtils";
 import Link from "next/link";
-import { useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 export default function Slider_Form() {
   const [data, setdata] = useState();
   const [imagePreview, setImagePreview] = useState(null);
@@ -17,7 +17,7 @@ export default function Slider_Form() {
 
   const id = searchParams.get("id");
   console.log(id, "id");
-
+  const router = useRouter();
   const {
     register,
     handleSubmit,
@@ -33,16 +33,27 @@ export default function Slider_Form() {
       formData.append("image", data.image[0]);
       formData.append("subTitle", data.subTitle);
       formData.append("description", data.description);
+
+      let response; // ✅ MUST be here (function scope)
+
       if (id) {
-        const response = await adminUpdateApi(`/api/v1/banner/${id}`, formData);
+        response = await adminUpdateApi(`/api/v1/banner/${id}`, formData);
       } else {
-        const response = await adminPostApi("/api/v1/banner", formData);
+        response = await adminPostApi("/api/v1/banner", formData);
       }
-      console.log(response);
+
+      console.log("RESPONSE 👉", response);
+
+      // ✅ redirect AFTER confirmed success
+      if (response && (response.status === 200 || response.status === 201)) {
+        router.replace("/Slider");
+      }
+
     } catch (error) {
       console.error("Something is wrong:", error);
     }
   };
+
   const getUserByID = async (id) => {
     try {
       const result = await adminFetchApi("api/v1/banner", id);
@@ -98,7 +109,7 @@ export default function Slider_Form() {
             type="file"
             accept="image/*"
             className="w-full border-2 my-2 "
-            {...register("image", { required: "nanf,dmn dsf" })}
+            {...register("image", { required: "Image is required" })}
             onChange={(e) => {
               if (e.target.files[0]) {
                 setImagePreview(URL.createObjectURL(e.target.files[0]));
@@ -122,7 +133,7 @@ export default function Slider_Form() {
             <input
               type="text"
               className="w-full border-2 my-2"
-              {...register("title", { required: "TITLE is required" })}
+              {...register("title", { required: "TITLE is required", minLength: { value: 3, message: "Title must be at lest 3 character long" } })}
             />
             {errors["title"] && (
               <p className="text-red-200">{errors["title"].message}</p>
@@ -145,7 +156,7 @@ export default function Slider_Form() {
             <input
               type="text"
               className="w-full border-2 my-2"
-              {...register("description")}
+              {...register("description", { required: "description is required" })}
             />
             {errors["description"] && (
               <p className="text-red-200">{errors["description"].message}</p>
@@ -156,7 +167,7 @@ export default function Slider_Form() {
             <input
               type="text"
               className="w-full border-2 my-2"
-              {...register("url")}
+              {...register("url", { required: "url is required", pattern: { value: /^https?:\/\/.+/i, message: "Url must start wit http: or https:" } })}
             />
             {errors["url"] && (
               <p className="text-red-200">{errors["url"].message}</p>

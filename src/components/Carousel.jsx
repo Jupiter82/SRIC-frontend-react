@@ -79,7 +79,7 @@ export default function Carousel() {
         {data.map((item, index) => (
           <div className="relative" key={index}>
             <div className="absolute z-10 bg-black/50 w-[100%] h-[100%]"></div>
-
+            {console.log(process.env.NEXT_PUBLIC_IMAGE_URL + "/" + item.image, "image")}
             <Image
               src={process.env.NEXT_PUBLIC_IMAGE_URL + "/" + item.image}
               width={1000}

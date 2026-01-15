@@ -105,10 +105,10 @@ const GetInvolcedPage = () => {
       </div>
       <div className="py-16 md:pl-8 overflow-x-auto">
         <iframe
-          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3532.7100784836166!2d85.3339317755807!3d27.695354226020147!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39eb19a77520a339%3A0x4df14616bdef4f1c!2sSoftech%20Foundation%20Pvt.Ltd.!5e0!3m2!1sen!2snp!4v1711957629024!5m2!1sen!2snp"
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d40351.71942697519!2d85.35657322875292!3d27.684253288873094!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39eb1a419f80aa67%3A0x288ab8841508315f!2sMadhyapur%20Thimi!5e0!3m2!1sen!2snp!4v1768455976594!5m2!1sen!2snp"
           width="700"
           height="400"
-          style={{border:"0"}}
+          style={{ border: "0" }}
           allowfullscreen=""
           loading="lazy"
           referrerpolicy="no-referrer-when-downgrade"

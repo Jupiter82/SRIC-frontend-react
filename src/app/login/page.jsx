@@ -1,35 +1,48 @@
 "use client"
 import { adminPostApi } from "@/app/utils/httpUtils";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useState,useEffect } from "react";
+import { useState, useEffect } from "react";
+import { FaArrowLeft, FaEye, FaEyeSlash } from "react-icons/fa";
 const LoginPage = () => {
   const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  
+  const [showPassword, setShowPassword] = useState(false)
+  const [errorMessage, setErrorMessage] = useState("")
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setErrorMessage("")
     try {
-      const response = await adminPostApi("/api/v1/auth/login",{
+      const response = await adminPostApi("/api/v1/auth/login", {
         email,
         password,
       })
-      localStorage.setItem("token", response.data.result.token);  
+      localStorage.setItem("token", response.data.result.token);
       router.push("/profile");
     } catch (error) {
-      console.error("Something is wrong", error);
-     
+      const msg = error?.response?.data?.message || "Invalid email or password"
+      setErrorMessage(msg)
     }
   };
-  useEffect(()=>{
+  useEffect(() => {
     const token = localStorage.getItem("token")
-    if(token){
+    if (token) {
       router.push("/profile")
     }
-  },[router])
-  
+  }, [router])
+
   return (
     <div className=" flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+      <Link
+        href="/"
+        className="absolute top-4 left-4 p-2 rounded-full hover:bg-gray-200"
+        aria-label="Go back to home"
+      >
+        <FaArrowLeft className="text-xl text-indigo-600" />
+      </Link>
+
       <div className="max-w-md w-full space-y-8">
         <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
           Login
@@ -57,17 +70,26 @@ const LoginPage = () => {
               <label htmlFor="password" className="sr-only">
                 Password
               </label>
-              <input
-                id="password"
-                name="password"
-                type="password"
-                autoComplete="current-password"
-                required
-                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-                placeholder="Password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-              />
+              <div className="relative">
+                <input
+                  id="password"
+                  name="password"
+                  type={showPassword ? "text" : "password"}
+                  autoComplete="current-password"
+                  required
+                  className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+                  placeholder="Password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                >
+                </input>
+                <button onClick={() => setShowPassword(prev => !prev)} type="button" className="z-10 absolute inset-y-0 right-3 flex items-center text-gray-500 hover:text-gray-700"
+                >
+                  {showPassword ? <FaEye /> : <FaEyeSlash />}
+
+                </button>
+              </div>
+
             </div>
           </div>
 
@@ -96,7 +118,7 @@ const LoginPage = () => {
               </a>
             </div>
           </div>
-
+          {errorMessage && (<p className="text-red-500 text-sm text-center">{errorMessage}</p>)}
           <div>
             <button
               type="submit"

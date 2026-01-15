@@ -7,7 +7,7 @@ export default function ServicesPage() {
   return (
     <div className="">
       <div className="relative overflow-hidden">
-      <div className="absolute z-10 bg-black/50 w-[100%] h-[100%]"></div>
+        <div className="absolute z-10 bg-black/50 w-[100%] h-[100%]"></div>
         <Image
           src="/images/banner1.jpg"
           width={1000}
@@ -41,14 +41,14 @@ export default function ServicesPage() {
               Software Development
             </h1>
             <p className="px-8 md:py-8">
-              Softech Foundation has carved out a successful niche for itself in
+              SRIC has carved out a successful niche for itself in
               custom software design and development. We provide complete
               software implementation process, starting with software design and
               development, software quality assurance testing, software
               deployment, up to further software upgrades and enhancements
               <br /> <br />
               The core software design and development services provided by
-              Softech Foundation include, but are not limited to, desktop
+              SRIC include, but are not limited to, desktop
               application development, high-end client-server application
               development, enterprise application development and building
               end-to-end enterprise application integration (EAI) solutions,
@@ -110,7 +110,7 @@ export default function ServicesPage() {
               you require.
               <br /> <br /> We offer value for money packages for new business,
               established companies and individuals.By combining marketing
-              expertise and design skills, Softech Foundation offers a full
+              expertise and design skills, SRIC offers a full
               spectrum of professional, quality-driven services on custom mobile
               application development services, and mobile application
               programming, multimedia presentation design and development,

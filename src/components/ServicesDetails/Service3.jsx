@@ -82,7 +82,7 @@ export default function Service3() {
             />
           </div>
           <p>
-            Softech Foundation has carved out a successful niche for itself in
+            SRIC has carved out a successful niche for itself in
             custom software design and development. We provide complete software
             implementation process, starting with software design and
             development, software quality assurance testing, software
@@ -96,7 +96,7 @@ export default function Service3() {
           </p>
         </div>
       </div>
-      <CustomButton/>
+      <CustomButton />
     </div>
   );
 }

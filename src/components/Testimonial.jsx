@@ -11,19 +11,19 @@ export default function Testimonial() {
   useEffect(() => {
     function handleResize() {
       if (window.innerWidth < 768) {
-        setSlidesToShow(1); 
+        setSlidesToShow(1);
       } else {
-        setSlidesToShow(3); 
+        setSlidesToShow(3);
       }
     }
 
-    
+
     window.addEventListener("resize", handleResize);
 
-    
+
     handleResize();
 
-    
+
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
@@ -42,12 +42,13 @@ export default function Testimonial() {
           // borderRadius: "8px rounded",
           padding: "10px",
           zIndex: 1,
-          padding:"2px",
-          
+          padding: "2px",
+
         }}
       >
-        <ul style={{ margin: "0px",
-         }}> {dots} </ul>
+        <ul style={{
+          margin: "0px",
+        }}> {dots} </ul>
       </div>
     ),
     customPaging: (i) => (
@@ -56,23 +57,23 @@ export default function Testimonial() {
           width: "26px",
           color: "black",
           // backgroundColor:"red",
-          
+
           // border: "4px blue solid",
-          padding:"2px",
-          gap:"4px",
+          padding: "2px",
+          gap: "4px",
           zIndex: 1,
-          
+
         }}
         className="dot"
 
       >
-        {i+1}
+        {i + 1}
       </div>
     ),
   };
 
   return (
-    <div className="slider-container py-4">
+    <div className="slider-container py-8 overflow-hidden ">
       <div className="text-center">
         <h1 className="text-blue-500 text-2xl">Testimonial</h1>
         <h2 className="text-4xl">Our Students Say</h2>

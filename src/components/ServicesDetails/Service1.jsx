@@ -25,44 +25,44 @@ export default function Service1() {
       <div className=" container mx-auto flex py-8">
         {/* Sidebar */}
         <div className="py-4 px-2">
-        <div className=" hidden md:block bg-gray-200  ">
-          {/* Sidebar content goes here */}
-          <ul>
-            <Link href={"/Service1"}>
-            <li className="flex my-2 border-b-2 px-4 justify-between border-slate-500 hover:bg-blue-500">
-                Software Development <FaChevronRight className="my-1 mx-2" />
-              </li>
-            </Link>
-            <Link href={"/Service2"}>
-              <li className="flex my-2 border-b-2 px-4 justify-between border-slate-500 hover:bg-blue-500">
-                Web Development <FaChevronRight className="my-1 mx-2" />
-              </li>
-            </Link>
-            <Link href={"/Service3"}>
-              <li className="flex my-2 border-b-2 px-4 justify-between border-slate-500 hover:bg-blue-500">
-                Mobile Application Development{" "}
-                <FaChevronRight className="my-1 mx-2" />
-              </li>
-            </Link>
-            <Link href={"/Service1"}>
-              <li className="flex my-2 border-b-2 px-4 justify-between border-slate-500 hover:bg-blue-500">
-                Software Development
-                <FaChevronRight className="my-1 mx-2" />{" "}
-              </li>
-            </Link>
-            <Link href={"/Service2"}>
-              <li className="flex my-2 border-b-2 px-4 justify-between border-slate-500 hover:bg-blue-500">
-                Web Development <FaChevronRight className="my-1 mx-2" />
-              </li>
-            </Link>
-            <Link href={"/Service3"}>
-              <li className="flex my-2 border-b-2 px-4 justify-between border-slate-500 hover:bg-blue-500">
-                Mobile Application Development{" "}
-                <FaChevronRight className="my-1 mx-2" />
-              </li>
-            </Link>
-          </ul>
-        </div>
+          <div className=" hidden md:block bg-gray-200  ">
+            {/* Sidebar content goes here */}
+            <ul>
+              <Link href={"/Service1"}>
+                <li className="flex my-2 border-b-2 px-4 justify-between border-slate-500 hover:bg-blue-500">
+                  Software Development <FaChevronRight className="my-1 mx-2" />
+                </li>
+              </Link>
+              <Link href={"/Service2"}>
+                <li className="flex my-2 border-b-2 px-4 justify-between border-slate-500 hover:bg-blue-500">
+                  Web Development <FaChevronRight className="my-1 mx-2" />
+                </li>
+              </Link>
+              <Link href={"/Service3"}>
+                <li className="flex my-2 border-b-2 px-4 justify-between border-slate-500 hover:bg-blue-500">
+                  Mobile Application Development{" "}
+                  <FaChevronRight className="my-1 mx-2" />
+                </li>
+              </Link>
+              <Link href={"/Service1"}>
+                <li className="flex my-2 border-b-2 px-4 justify-between border-slate-500 hover:bg-blue-500">
+                  Software Development
+                  <FaChevronRight className="my-1 mx-2" />{" "}
+                </li>
+              </Link>
+              <Link href={"/Service2"}>
+                <li className="flex my-2 border-b-2 px-4 justify-between border-slate-500 hover:bg-blue-500">
+                  Web Development <FaChevronRight className="my-1 mx-2" />
+                </li>
+              </Link>
+              <Link href={"/Service3"}>
+                <li className="flex my-2 border-b-2 px-4 justify-between border-slate-500 hover:bg-blue-500">
+                  Mobile Application Development{" "}
+                  <FaChevronRight className="my-1 mx-2" />
+                </li>
+              </Link>
+            </ul>
+          </div>
         </div>
 
         {/* Description */}
@@ -70,16 +70,16 @@ export default function Service1() {
           {/* Description content goes here */}
           <h2 className="text-lg text-center font-bold">SoftWare Development</h2>
           <div>
-          <Image
-                src="/images/service2.jpeg"
-                width={1000}
-                height={500}
-                className="h-[400px] w-full  md:px-4"
-                alt="image"
-              />
+            <Image
+              src="/images/service2.jpeg"
+              width={1000}
+              height={500}
+              className="h-[400px] w-full  md:px-4"
+              alt="image"
+            />
           </div>
           <p>
-            Softech Foundation has carved out a successful niche for itself in
+            SRIC has carved out a successful niche for itself in
             custom software design and development. We provide complete software
             implementation process, starting with software design and
             development, software quality assurance testing, software

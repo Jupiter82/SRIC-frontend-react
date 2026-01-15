@@ -138,12 +138,13 @@ export default function Slider() {
         <h1>Slider test</h1>
       </div>
 
-      <Link href={"/Slider_Form"}>
-        <button className="text-white flex text-xl bg-green-400 rounded-md p-4  mx-4 ">
-          <FaPlus className="mx-2 text-3xl" />
+      <Link href="/Slider_Form">
+        <button className="flex items-center text-white text-sm bg-green-400 rounded-md px-3 py-2 mx-4 hover:bg-green-500 transition">
+          <FaPlus className="mr-2 text-sm" />
           Add New Slider
         </button>
       </Link>
+
       <Card className="h-full w-full">
         {/* <CardHeader floated={false} shadow={false} className="rounded-none">
           <div className="mb-4 flex flex-col justify-between gap-8 md:flex-row md:items-center">
@@ -169,7 +170,7 @@ export default function Slider() {
             </div>
           </div>
         </CardHeader> */}
-            
+
         <CardBody className="overflow-scroll px-0">
           <table className="w-full min-w-max table-auto text-left">
             <thead>

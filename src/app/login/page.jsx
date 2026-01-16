@@ -2,8 +2,11 @@
 import { adminPostApi } from "@/app/utils/httpUtils";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { FaArrowLeft, FaEye, FaEyeSlash } from "react-icons/fa";
+import { toast } from "react-toastify";
+import Cookies from "js-cookie";
+
 const LoginPage = () => {
   const router = useRouter();
   const [email, setEmail] = useState("");
@@ -19,19 +22,26 @@ const LoginPage = () => {
         email,
         password,
       })
-      localStorage.setItem("token", response.data.result.token);
-      router.push("/profile");
+      // Auth token → Cookie (httpOnly)
+      // UI state → localStorage / state
+
+      // Save token in cookie
+      Cookies.set("token", response.data.result.token, {
+        expires: 1,       // 1 day
+        sameSite: "strict",
+      });
+      toast.success("Login successful 🎉", {
+        onClose: () => {
+          router.replace("/profile");
+        },
+      });
+
     } catch (error) {
       const msg = error?.response?.data?.message || "Invalid email or password"
       setErrorMessage(msg)
     }
   };
-  useEffect(() => {
-    const token = localStorage.getItem("token")
-    if (token) {
-      router.push("/profile")
-    }
-  }, [router])
+
 
   return (
     <div className=" flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
@@ -125,7 +135,7 @@ const LoginPage = () => {
               className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
             >
               <span className="absolute left-0 inset-y-0 flex items-center pl-3">
-                {/* Heroicon name: lock-closed */}
+
               </span>
               Login
             </button>

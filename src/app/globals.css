@@ -2,7 +2,8 @@
 @tailwind components;
 @tailwind utilities;
 
-.body{
+
+.body {
   background-color: #fff;
 
 }
@@ -14,15 +15,18 @@
 }
 
 .image-container {
-  filter: blur(5px); /* Apply blur effect to all images */
+  filter: blur(5px);
+  /* Apply blur effect to all images */
 }
 
 .image-container img {
-  filter: none; /* Clear the filter for the center image */
+  filter: none;
+  /* Clear the filter for the center image */
 }
 
 .slick-center .image-container {
-  filter: none; /* Clear the filter for the center image */
+  filter: none;
+  /* Clear the filter for the center image */
 }
 
 .dot {
@@ -33,4 +37,3 @@
   display: inline-block;
   gap: 3px;
 }
-  

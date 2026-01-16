@@ -28,6 +28,7 @@ import { FiEdit } from "react-icons/fi";
 import { RiDeleteBin5Line } from "react-icons/ri";
 import { adminDeleteApi, adminFetchApi } from "@/app/utils/httpUtils";
 import { useRouter } from "next/navigation";
+import { toast } from "react-toastify";
 // import { useRouter } from "next/navigation";
 
 export default function Slider() {
@@ -115,6 +116,7 @@ export default function Slider() {
     try {
       const result = await adminDeleteApi("api/v1/banner", id);
       if (result.status === 200) {
+        toast.success("Success Fully deleted")
         getSliderDetails();
       }
     } catch (error) {
@@ -138,12 +140,12 @@ export default function Slider() {
         <h1>Slider test</h1>
       </div>
 
-      <Link href="/Slider_Form">
-        <button className="flex items-center text-white text-sm bg-green-400 rounded-md px-3 py-2 mx-4 hover:bg-green-500 transition">
+      <button className=" text-white text-sm bg-green-400 rounded-md px-3 py-2 mx-4 hover:bg-green-500 transition">
+        <Link href="/Slider_Form" className="flex items-center">
           <FaPlus className="mr-2 text-sm" />
           Add New Slider
-        </button>
-      </Link>
+        </Link>
+      </button>
 
       <Card className="h-full w-full">
         {/* <CardHeader floated={false} shadow={false} className="rounded-none">

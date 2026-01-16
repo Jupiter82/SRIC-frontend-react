@@ -1,24 +1,48 @@
+// import axios from "axios";
+
+// export const adminHttpBase = () => {
+//   const token = localStorage.getItem("token");
+
+//   const headers = {
+//     Authorization: `Bearer ${token}`,
+//   };
+
+//   const api = axios.create({
+//     baseURL: process.env.NEXT_PUBLIC_APP_URL,
+//     headers: headers,
+//     responseType: "json",
+//   });
+//   return api;
+// };
+
+// export const userHttpBase = () => {
+//   const userApi = axios.create({
+//     baseURL: process.env.NEXT_PUBLIC_APP_URL,
+//     responseType: "json",
+//   });
+//   return userApi;
+// };
+
 import axios from "axios";
+import Cookies from "js-cookie";
 
 export const adminHttpBase = () => {
-  const token = localStorage.getItem("token");
-
-  const headers = {
-    Authorization: `Bearer ${token}`,
-  };
+  const token = Cookies.get("token"); // ✅ cookie, not localStorage
 
   const api = axios.create({
     baseURL: process.env.NEXT_PUBLIC_APP_URL,
-    headers: headers,
     responseType: "json",
+    headers: {
+      ...(token && { Authorization: `Bearer ${token}` }),
+    },
   });
+
   return api;
 };
 
 export const userHttpBase = () => {
-  const userApi = axios.create({
+  return axios.create({
     baseURL: process.env.NEXT_PUBLIC_APP_URL,
     responseType: "json",
   });
-  return userApi;
 };

@@ -10,9 +10,11 @@ import {
 } from "@/app/utils/httpUtils";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
+import { toast } from "react-toastify";
 export default function Slider_Form() {
   const [data, setdata] = useState();
   const [imagePreview, setImagePreview] = useState(null);
+  const [isNewImage, setIsNewImage] = useState(false)
   const searchParams = useSearchParams();
 
   const id = searchParams.get("id");
@@ -30,9 +32,17 @@ export default function Slider_Form() {
       formData.append("title", data.title);
       formData.append("url", data.url);
       formData.append("status", "active");
-      formData.append("image", data.image[0]);
+      // formData.append("image", data.image[0]);
       formData.append("subTitle", data.subTitle);
       formData.append("description", data.description);
+
+      // Append file ONLY if a new one is selected
+      if (data.image && data.image[0]) {
+        formData.append("image", data.image[0]);
+      } else if (imagePreview && !isNewImage) {
+        // If editing and no new image is selected, append the existing image name
+        formData.append("existingImage", imagePreview);
+      }
 
       let response; // ✅ MUST be here (function scope)
 
@@ -46,6 +56,7 @@ export default function Slider_Form() {
 
       // ✅ redirect AFTER confirmed success
       if (response && (response.status === 200 || response.status === 201)) {
+        toast.success("Slider saved")
         router.replace("/Slider");
       }
 
@@ -109,10 +120,11 @@ export default function Slider_Form() {
             type="file"
             accept="image/*"
             className="w-full border-2 my-2 "
-            {...register("image", { required: "Image is required" })}
+            {...register("image", { required: !imagePreview && "Image is required" })}
             onChange={(e) => {
               if (e.target.files[0]) {
                 setImagePreview(URL.createObjectURL(e.target.files[0]));
+                setIsNewImage(true)
               }
             }}
           />
@@ -122,7 +134,7 @@ export default function Slider_Form() {
           {imagePreview && (
             <div className="my-2">
               <img
-                src={process.env.NEXT_PUBLIC_IMAGE_URL + "/" + imagePreview}
+                src={isNewImage ? imagePreview : process.env.NEXT_PUBLIC_IMAGE_URL + "/" + imagePreview}
                 alt="Image Preview"
                 className="w-32 h-32 object-cover"
               />
@@ -178,7 +190,7 @@ export default function Slider_Form() {
         <button
           type="submit"
           value="submit"
-          className="bg-green-400 text-white my-4 text-2xl p-2 rounded-md"
+          className="bg-green-400 text-white my-4 text-lg p-2 rounded-md"
         >
           Submit
         </button>

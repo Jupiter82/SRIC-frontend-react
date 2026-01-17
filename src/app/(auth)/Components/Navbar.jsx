@@ -23,7 +23,7 @@ const Navbar = () => {
       <div className="max-w-7xl mx-auto px-4">
         <div className="flex items-center justify-between h-16">
           <Link href="/" className="text-white font-semibold flex items-center">
-            <Image width={32} height={32} src="/logo.svg" alt="Logo" />
+            <Image width={32} height={32} src="/images/logo.png" alt="Logo" />
             <span className="ml-2">SRIC</span>
           </Link>
 

@@ -38,18 +38,27 @@ export default function Slider() {
   const [deleteId, setDeleteId] = useState(null);
   const [sliderData, setSliderData] = useState([]);
   const [page, setPage] = useState(1);
-  const handleDeleteClick = (id) => {
-    setDeleteId(id);
-    setShowDeleteModal(true);
-  };
+  // const handleDeleteClick = (id) => {
+  //   setDeleteId(id);
+  //   setShowDeleteModal(true);
+  // };
   const handleConfirmDelete = async () => {
-    console.log("Delete confirmed");
-    const response = await adminDeleteApi(`/api/v1/banner/${deleteId}`);
-    setDeleteId(null);
-    setShowDeleteModal(false);
+    try {
+      const response = await adminDeleteApi("/api/v1/banner", deleteId);
+      // const response = await adminDeleteApi(`/api/v1/banner/${deleteId}`);
+      if (response.status === 200) {
+        toast.success("Successfully deleted")
+        setDeleteId(null);
+        setShowDeleteModal(false);
+        getSliderDetails()
+      }
+    } catch (error) {
+      console.log(error)
+    }
   };
   const handleCancelDelete = () => {
     setShowDeleteModal(false);
+    setDeleteId(null)
   };
   const onChange = (pageNumber) => {
     setPage(pageNumber);
@@ -111,19 +120,24 @@ export default function Slider() {
     },
   ];
 
-  const deleteUserById = async (id) => {
-    //delte ko api with id
-    try {
-      const result = await adminDeleteApi("api/v1/banner", id);
-      if (result.status === 200) {
-        toast.success("Success Fully deleted")
-        getSliderDetails();
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
-  console.log(sliderData, "test");
+  //before when delete button id without model
+  // const deleteUserById = async (id) => {
+  //   //delte ko api with id
+  //   try {
+  //     const result = await adminDeleteApi("api/v1/banner", id);
+  //     if (result.status === 200) {
+  //       toast.success("Successfully deleted")
+  //       setShowDeleteModal(false)
+  //       setDeleteId(null)
+  //       getSliderDetails();
+  //     }
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
+  // console.log(sliderData, "test");
+
+
 
   return (
     <>
@@ -202,7 +216,7 @@ export default function Slider() {
                     : "p-4 border-b border-blue-gray-50";
 
                   return (
-                    <tr key={name}>
+                    <tr key={_id}>
                       <td className={classes}>
                         <div className="flex items-center gap-3">
                           <Avatar
@@ -249,7 +263,6 @@ export default function Slider() {
                           {description}
                         </Typography>
                       </td>
-
                       <td className={classes}>
                         <Tooltip content="Edit User">
                           <IconButton
@@ -264,9 +277,11 @@ export default function Slider() {
                         <Tooltip content="Delete User">
                           <IconButton
                             variant="text"
-                            onClick={() => {
-                              deleteUserById(_id);
-                            }}
+                            // onClick={() => {
+                            //   deleteUserById(_id);
+                            // }}
+                            onClick={() => { setDeleteId(_id); setShowDeleteModal(true); console.log(_id, "Deleted") }}
+
                           >
                             <TrashIcon className="h-4 w-4" />
                           </IconButton>
@@ -278,6 +293,30 @@ export default function Slider() {
               )}
             </tbody>
           </table>
+          {showDeleteModal && (
+            <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+              <div className="bg-white p-6 rounded-md">
+                <h2 className="text-lg font-semibold mb-4">Delete</h2>
+                <p>Please confirm you would like to delete this Slider.</p>
+                <div className="flex justify-end mt-4">
+                  <button
+                    className="px-4 py-2 bg-red-500 text-white rounded-md mr-2"
+                    onClick={() => {
+                      handleConfirmDelete()
+                    }}
+                  >
+                    Yes
+                  </button>
+                  <button
+                    className="px-4 py-2 bg-green-500 text-white rounded-md"
+                    onClick={handleCancelDelete}
+                  >
+                    No
+                  </button>
+                </div>
+              </div>
+            </div>
+          )}
         </CardBody>
         <CardFooter className="flex items-center justify-between border-t border-blue-gray-50 p-4">
           <Button variant="outlined" size="sm">
@@ -311,6 +350,8 @@ export default function Slider() {
           </Button>
         </CardFooter>
       </Card>
+
+
       {/* <div className=" ">
         <div className="flex row gap-2 mx-4 my-4 text-blue-500">
           <Link href={"/profile"}>

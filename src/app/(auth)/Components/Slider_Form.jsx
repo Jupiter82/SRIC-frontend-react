@@ -39,10 +39,12 @@ export default function Slider_Form() {
       // Append file ONLY if a new one is selected
       if (data.image && data.image[0]) {
         formData.append("image", data.image[0]);
-      } else if (imagePreview && !isNewImage) {
-        // If editing and no new image is selected, append the existing image name
-        formData.append("existingImage", imagePreview);
       }
+
+      // else if (imagePreview && !isNewImage) {
+      //   // If editing and no new image is selected, append the existing image name
+      //   formData.append("existingImage", imagePreview);
+      // }
 
       let response; // ✅ MUST be here (function scope)
 
@@ -88,7 +90,7 @@ export default function Slider_Form() {
   useEffect(() => {
     if (data) {
       reset({
-        image: data?.image[0],
+        // image: data?.image[0],
         title: data?.title,
         subTitle: data?.subTitle,
         description: data?.description,

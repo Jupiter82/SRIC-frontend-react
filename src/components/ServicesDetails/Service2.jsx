@@ -85,7 +85,7 @@ export default function Service2() {
             implementation process, starting with software design and
             development, software quality assurance testing, software
             deployment, up to further software upgrades and enhancements The
-            core software design and development services provided by Softech
+            core software design and development services provided by Science
             Foundation include, but are not limited to, desktop application
             development, high-end client-server application development,
             enterprise application development and building end-to-end

@@ -71,14 +71,14 @@ export default function ServicesPage() {
           <div className="px-4 container mx-auto md:h-[350px] md:order-">
             <h1 className="px-8 text-3xl font-semibold">Web Development</h1>
             <p className="px-8 md:py-8">
-              By combining marketing expertise and design skills, Softech
+              By combining marketing expertise and design skills, Science
               Foundation offers a full spectrum of professional, quality-driven
               services on custom website design and re-design, Flash web site
               design and programming, multimedia presentation design and
               development, corporate identity, custom print graphics, and
               original art work.
               <br /> <br />
-              The team of design and marketing professionals at Softech
+              The team of design and marketing professionals at Science
               Foundation blends inspiration, creative approach and technical
               skills to help you communicate with your clients and network more
               effectively, position your brand, or take your business to new

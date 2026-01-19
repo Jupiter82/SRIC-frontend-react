@@ -1,6 +1,6 @@
 "use client";
 import Link from "next/link";
-import React, { useState }  from "react";
+import React, { useState } from "react";
 import { FaChevronRight } from "react-icons/fa";
 import { FaHome } from "react-icons/fa";
 import { FaPlus } from "react-icons/fa";
@@ -67,7 +67,7 @@ export default function Testimonial_List() {
             <tr>
               <td>1</td>
               <td>Good Platform for Learning</td>
-              <td>Softech research</td>
+              <td>Science research</td>
               <td>img</td>
               <td>Jack</td>
               <td>student</td>
@@ -90,7 +90,7 @@ export default function Testimonial_List() {
                 />
               </td>
             </tr>
-            
+
           </tbody>
         </table>
       </div>

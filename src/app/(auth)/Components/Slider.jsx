@@ -17,25 +17,20 @@ import {
   Tooltip,
   Input,
 } from "@material-tailwind/react";
-import Link from "next/link";
 import React, { useEffect, useState } from "react";
-import { FaPlus } from "react-icons/fa";
-import { FiEye } from "react-icons/fi";
-import { FiEdit } from "react-icons/fi";
-import { RiDeleteBin5Line } from "react-icons/ri";
 import { adminDeleteApi, adminFetchApi } from "@/app/utils/httpUtils";
 import { usePathname, useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 import Add_Form_Button from "./Buttons/Add_Form_Button";
-import Breadcrumbs from "./Common/Breadcrumbs";
+import Breadcrumbs_Div from "./Common/Breadcrumbs_Div";
 // import { useRouter } from "next/navigation";
 
 export default function Slider() {
   const navigate = useRouter();
 
+  const [sliderData, setSliderData] = useState([]);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [deleteId, setDeleteId] = useState(null);
-  const [sliderData, setSliderData] = useState([]);
   const [page, setPage] = useState(1);
   const [search, setSearch] = useState("")
   const [meta, setMeta] = useState({});
@@ -60,6 +55,7 @@ export default function Slider() {
   const getSliderDetails = async () => {
     try {
       const response = await adminFetchApi(`/api/v1/banner?page=${page}&limit=10&search=${search}`);
+      console.log(response?.data?.result, "response result")
       setSliderData(response?.data?.result);
       setMeta(response?.data?.meta);
     } catch (error) {
@@ -113,7 +109,7 @@ export default function Slider() {
 
   return (
     <>
-      <Breadcrumbs title={pTitle} />
+      <Breadcrumbs_Div title={pTitle} />
       <Add_Form_Button title={pTitle} path="/Slider_Form" />
 
       <Card className="h-full w-full">
@@ -185,13 +181,13 @@ export default function Slider() {
                             size="md"
                             className="border border-blue-gray-50 bg-blue-gray-50/50 object-contain p-1"
                           />
-                          <Typography
+                          {/* <Typography
                             variant="small"
                             color="blue-gray"
                             className="font-bold"
                           >
                             {image}
-                          </Typography>
+                          </Typography> */}
                         </div>
                       </td>
                       <td className={classes}>

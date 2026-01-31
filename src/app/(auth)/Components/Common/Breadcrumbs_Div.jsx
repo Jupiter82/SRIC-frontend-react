@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { FaChevronRight } from "react-icons/fa";
 import { FaHome } from "react-icons/fa";
-const Breadcrumbs = ({ title }) => {
+const Breadcrumbs_Div = ({ title }) => {
     return (<>
         <div className="flex row gap-2 mx-4 my-4 text-blue-500">
             <Link href={"/profile"}>
@@ -17,4 +17,4 @@ const Breadcrumbs = ({ title }) => {
         </div>
     </>)
 }
-export default Breadcrumbs;
+export default Breadcrumbs_Div;

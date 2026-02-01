@@ -2,6 +2,7 @@ import React from "react";
 import { FaChevronRight } from "react-icons/fa";
 import { FaHome } from "react-icons/fa";
 import Link from "next/link";
+import Submit_Form_Button from "./Buttons/Submit_Form_Button";
 
 export default function Testimonial_Form() {
   return (
@@ -71,17 +72,15 @@ export default function Testimonial_Form() {
             />
           </div>
           <div className="">
-            <input type="checkbox" id="scales" name="scales"  />
+            <input type="checkbox" id="scales" name="scales" />
             <label className="mx-2">Activate Status</label>
           </div>
           <div className="">
-            <input type="checkbox" id="scales" name="scales"  />
+            <input type="checkbox" id="scales" name="scales" />
             <label className="mx-2">Featured</label>
           </div>
         </div>
-        <button className="bg-green-400 text-white my-4 text-2xl p-2 rounded-md">
-          Submit
-        </button>
+        <Submit_Form_Button />
       </div>
     </div>
   );

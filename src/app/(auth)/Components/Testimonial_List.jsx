@@ -1,9 +1,6 @@
 "use client";
-import Link from "next/link";
 import React, { useEffect, useState } from "react";
-
 import Breadcrumbs_Div from "./Common/Breadcrumbs_Div";
-import Add_Form_Button from "./Buttons/Add_Form_Button";
 import {
   Card,
   CardHeader,
@@ -17,15 +14,17 @@ import {
   Tooltip,
   Input,
 } from "@material-tailwind/react";
+import Add_Form_Button from "./Buttons/Add_Form_Button";
 import { adminFetchApi } from "@/app/utils/httpUtils";
+import Link from "next/link";
+
 import { PencilIcon, TrashIcon } from "@heroicons/react/24/solid";
 
 
 export default function Testimonial_List() {
-
   const [testimonialData, setTestimonialData] = useState([])
-  console.log(testimonialData)
-
+  const [showDeleteModal, setShowDeleteModal] = useState(false)
+  const [deleteId, setDeleteId] = useState(null)
   const getTestimonialData = async () => {
     try {
       const response = await adminFetchApi("api/v1/testimonial?page=1&limit=10");
@@ -60,79 +59,6 @@ export default function Testimonial_List() {
           <h1 className="flex">Add Testimonial </h1>
         </div> */}
         <Add_Form_Button title={"Testimonial"} path={"Testimonial_Form"} />
-
-        {/* <h1 className="mx-4 text-xl py-4">Testimonial List</h1>
-        <hr className="font-bold" />
-        <div className="overflow-x-auto">
-          <table className=" w-full">
-            <thead className=" bg-gray-300">
-              <tr className="">
-                <td className="px-2 border-2">S.N.</td>
-                <td className="px-2 border-2">Title</td>
-                <td className="px-2 border-2">Description</td>
-                <td className="px-2 border-2">Image</td>
-                <td className="px-2 border-2">Name</td>
-                <td className="px-2 border-2">Position</td>
-                <td className="px-2 border-2">Rating</td>
-                <td className="px-2 border-2">Status</td>
-                <td className="px-2 border-2">Featured</td>
-                <td className="px-2 border-2">Update</td>
-                <td className="px-2 border-2">Action</td>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>1</td>
-                <td>Good Platform for Learning</td>
-                <td>Science research</td>
-                <td>img</td>
-                <td>Jack</td>
-                <td>student</td>
-                <td>5</td>
-                <td>1</td>
-                <td>0</td>
-                <td>date</td>
-                <td className="flex gap-1">
-                  <Link href={"/view"}>
-                    {" "}
-                    <FiEye className="mx-2 text-xl text-black bg-green-500" />
-                  </Link>
-                  <Link href={"/"}>
-                    <FiEdit className=" text-xl bg-blue-500" />
-                  </Link>
-
-                  <RiDeleteBin5Line
-                    className="text-xl mx-2 bg-red-500"
-                    onClick={handleDeleteClick}
-                  />
-                </td>
-              </tr>
-
-            </tbody>
-          </table>
-        </div>
-        {showDeleteModal && (
-          <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-            <div className="bg-white p-6 rounded-md">
-              <h2 className="text-lg font-semibold mb-4">Delete</h2>
-              <p>Please confirm you would like to delete this Testimonial.</p>
-              <div className="flex justify-end mt-4">
-                <button
-                  className="px-4 py-2 bg-red-500 text-white rounded-md mr-2"
-                  onClick={handleConfirmDelete}
-                >
-                  Yes
-                </button>
-                <button
-                  className="px-4 py-2 bg-green-500 text-white rounded-md"
-                  onClick={handleCancelDelete}
-                >
-                  No
-                </button>
-              </div>
-            </div>
-          </div>
-        )} */}
 
         <Card className="h-full w-full">
           <CardHeader floated={false} shadow={false} className="rounded-none">
@@ -184,7 +110,10 @@ export default function Testimonial_List() {
                           </IconButton>
                         </Tooltip>
                         <Tooltip content="Delete User">
-                          <IconButton variant="text" >
+                          <IconButton variant="text" onClick={() => {
+                            setShowDeleteModal(true);
+                            setDeleteId(_id);
+                          }}>
                             <TrashIcon className="h-4 w-4" />
                           </IconButton>
                         </Tooltip>
@@ -193,16 +122,24 @@ export default function Testimonial_List() {
                   )
                 }
                 )}
-                <tr>
-                  <td></td>
-                </tr>
               </tbody>
-
             </table>
+            {showDeleteModal && <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+              <div className="bg-white p-6 rounded-md">
+                <h2 className="text-lg font-semibold mb-4 ">Delete</h2>
+                <p>Please confirm you would like to delete this Slider.</p>
+                <div className="flex justify-end mt-4">
+                  <button className="px-4 py-2 bg-red-500 text-white rounded-md mr-2">
+                    Yes
+                  </button>
+                  <button className="px-4 py-2 bg-green-500 text-white rounded-md" onClick={() => setShowDeleteModal(false)}>No</button>
+                </div>
+              </div>
+            </div>}
           </CardBody>
           <CardFooter className="flex items-center justify-between border-t border-blue-gray-50 p-4"></CardFooter>
         </Card>
-      </div>
+      </div >
     </>
   );
 }

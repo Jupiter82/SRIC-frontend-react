@@ -1,9 +1,6 @@
 "use client";
-import { PencilIcon, TrashIcon } from "@heroicons/react/24/solid";
-import {
-  ArrowDownTrayIcon,
-  MagnifyingGlassIcon,
-} from "@heroicons/react/24/outline";
+import React, { useEffect, useState } from "react";
+import Breadcrumbs_Div from "./Common/Breadcrumbs_Div";
 import {
   Card,
   CardHeader,
@@ -17,20 +14,22 @@ import {
   Tooltip,
   Input,
 } from "@material-tailwind/react";
-import React, { useEffect, useState } from "react";
+import Add_Form_Button from "./Buttons/Add_Form_Button";
 import { adminDeleteApi, adminFetchApi } from "@/app/utils/httpUtils";
+import { PencilIcon, TrashIcon } from "@heroicons/react/24/solid";
+import {
+  ArrowDownTrayIcon,
+  MagnifyingGlassIcon,
+} from "@heroicons/react/24/outline";
 import { usePathname, useRouter } from "next/navigation";
 import { toast } from "react-toastify";
-import Add_Form_Button from "./Buttons/Add_Form_Button";
-import Breadcrumbs_Div from "./Common/Breadcrumbs_Div";
 // import { useRouter } from "next/navigation";
 
 export default function Slider() {
-  const navigate = useRouter();
-
   const [sliderData, setSliderData] = useState([]);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [deleteId, setDeleteId] = useState(null);
+  const navigate = useRouter();
   const [page, setPage] = useState(1);
   const [search, setSearch] = useState("")
   const [meta, setMeta] = useState({});

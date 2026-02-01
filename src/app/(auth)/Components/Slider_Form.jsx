@@ -11,6 +11,7 @@ import {
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { toast } from "react-toastify";
+import Submit_Form_Button from "./Buttons/Submit_Form_Button";
 export default function Slider_Form() {
   const [data, setdata] = useState();
   const [imagePreview, setImagePreview] = useState(null);
@@ -189,13 +190,7 @@ export default function Slider_Form() {
           </div>
         </div>
 
-        <button
-          type="submit"
-          value="submit"
-          className="bg-green-400 text-white my-4 text-lg p-2 rounded-md"
-        >
-          Submit
-        </button>
+        <Submit_Form_Button />
       </form>
     </div>
   );

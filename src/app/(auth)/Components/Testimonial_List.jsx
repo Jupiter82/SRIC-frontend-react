@@ -38,6 +38,18 @@ export default function Testimonial_List() {
   }, [])
   const TABLE_HEAD = ["Image", "Title", "Description", "Action"];
 
+  const handleConfirmDelete = () => {
+
+  }
+  const handleCancelDelete = () => {
+    setShowDeleteModal(false)
+  }
+  const handleDeleteClick = (id) => {
+    setShowDeleteModal(true);
+    setDeleteId(id);
+    console.log("id_is", id)
+  }
+
 
   return (
     <>
@@ -110,10 +122,16 @@ export default function Testimonial_List() {
                           </IconButton>
                         </Tooltip>
                         <Tooltip content="Delete User">
-                          <IconButton variant="text" onClick={() => {
+                          {/* <IconButton variant="text" onClick={(() => {
                             setShowDeleteModal(true);
                             setDeleteId(_id);
-                          }}>
+                            console.log("id_is", _id)
+                          })}>
+                            <TrashIcon className="h-4 w-4" />
+                          </IconButton> */}
+                          <IconButton variant="text" onClick={(() => {
+                            handleDeleteClick(_id)
+                          })}>
                             <TrashIcon className="h-4 w-4" />
                           </IconButton>
                         </Tooltip>
@@ -132,7 +150,7 @@ export default function Testimonial_List() {
                   <button className="px-4 py-2 bg-red-500 text-white rounded-md mr-2">
                     Yes
                   </button>
-                  <button className="px-4 py-2 bg-green-500 text-white rounded-md" onClick={() => setShowDeleteModal(false)}>No</button>
+                  <button className="px-4 py-2 bg-green-500 text-white rounded-md" onClick={handleCancelDelete}>No</button>
                 </div>
               </div>
             </div>}

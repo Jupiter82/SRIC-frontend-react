@@ -33,6 +33,16 @@ export default function Slider() {
   const [page, setPage] = useState(1);
   const [search, setSearch] = useState("")
   const [meta, setMeta] = useState({});
+  const getSliderDetails = async () => {
+    try {
+      const response = await adminFetchApi(`/api/v1/banner?page=${page}&limit=10&search=${search}`);
+      console.log(response?.data?.result, "response result")
+      setSliderData(response?.data?.result);
+      setMeta(response?.data?.meta);
+    } catch (error) {
+      console.log(error);
+    }
+  };
   const handleConfirmDelete = async () => {
     try {
       const response = await adminDeleteApi("/api/v1/banner", deleteId);
@@ -50,16 +60,6 @@ export default function Slider() {
   const handleCancelDelete = () => {
     setShowDeleteModal(false);
     setDeleteId(null)
-  };
-  const getSliderDetails = async () => {
-    try {
-      const response = await adminFetchApi(`/api/v1/banner?page=${page}&limit=10&search=${search}`);
-      console.log(response?.data?.result, "response result")
-      setSliderData(response?.data?.result);
-      setMeta(response?.data?.meta);
-    } catch (error) {
-      console.log(error);
-    }
   };
   useEffect(() => {
     getSliderDetails();

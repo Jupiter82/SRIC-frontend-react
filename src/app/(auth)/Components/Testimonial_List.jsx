@@ -60,27 +60,12 @@ export default function Testimonial_List() {
   useEffect(() => {
     getTestimonialData()
   }, [])
-  const TABLE_HEAD = ["Image", "Title", "Description", "status", "Action"];
+  const TABLE_HEAD = ["Image", "Title", "Description", "Status", "Action"];
 
   return (
     <>
       <Breadcrumbs_Div title={"Testimonial"} />
       <div className=" ">
-        {/* <div className="flex row gap-2 mx-4 my-4 text-blue-500">
-          <Link href={"/profile"}>
-            <h1 className="flex gap-2 ">
-              <FaHome className="text-xl" /> Home{" "}
-              <FaChevronRight className="my-1" />
-            </h1>
-          </Link>
-          <h1 className="flex gap-2">
-            Pages <FaChevronRight className="my-1" />
-          </h1>
-          <h1>Testimonial</h1>
-        </div>
-        <div className="flex mx-6 my-6 text-blue-500">
-          <h1 className="flex">Add Testimonial </h1>
-        </div> */}
         <Add_Form_Button title={"Testimonial"} path={"Testimonial_Form"} />
 
         <Card className="h-full w-full">
@@ -145,8 +130,8 @@ export default function Testimonial_List() {
                         )}</Typography> */}
                         <Typography>
                           <div className="flex gap-2">
-                            <div class={`rounded-md flex items-center py-0.5 px-2.5 border border-transparent text-sm  transition-all shadow-sm ${isActive ? " bg-green-100 text-green-800" : "bg-red-100 text-red-800"}`}>
-                              <div class={`mx-auto block h-2 w-2 rounded-full mr-2 ${isActive ? "bg-green-800" : "bg-red-800"}`}></div>
+                            <div className={`rounded-md flex items-center py-0.5 px-2.5 border border-transparent text-sm  transition-all shadow-sm ${isActive ? " bg-green-100 text-green-800" : "bg-red-100 text-red-800"}`}>
+                              <div className={`mx-auto block h-2 w-2 rounded-full mr-2 ${isActive ? "bg-green-800" : "bg-red-800"}`}></div>
                               {isActive ? "Active" : "Inactive"}
                             </div>
                           </div>

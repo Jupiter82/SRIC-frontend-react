@@ -17,6 +17,7 @@ import {
 import Add_Form_Button from "./Buttons/Add_Form_Button";
 import { adminFetchApi } from "@/app/utils/httpUtils";
 import { ICON_MAP } from "@/common/iconMap"
+import { FaQuestionCircle } from "react-icons/fa";
 
 
 export default function Service_admin() {
@@ -70,6 +71,7 @@ export default function Service_admin() {
                   const isLast = index === serviceData.length - 1;
                   const classes = isLast ? "p-4" : "p-4 border-b border-blue-gray-50"
                   const isActive = status == "active"
+                  const IconComponent = ICON_MAP[icon] || FaQuestionCircle;
                   return (
                     <tr key={_id}>
                       <td className={classes}>
@@ -91,6 +93,14 @@ export default function Service_admin() {
                         </div>
                         </Typography>
                       </td>
+                      <td className={classes}>
+                        <div className="flex items-center gap-2">
+                          {
+                            IconComponent && (<IconComponent className="text-xl text-blue-600" />)
+                          }
+                        </div>
+                      </td>
+                      <td></td>
                     </tr>
                   )
                 })}
